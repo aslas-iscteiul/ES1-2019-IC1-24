@@ -1,5 +1,5 @@
 package app_structure;
 
-public class APP {
+public class Application {
  
 }
