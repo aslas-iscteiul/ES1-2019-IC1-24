@@ -24,7 +24,7 @@ public class FileReader {
 	 * @throws IOException if an I/O error occurs.
 	 */
 	public FileReader() throws IOException {
-		this.file = new FileInputStream(PATH);
+		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
 	}
