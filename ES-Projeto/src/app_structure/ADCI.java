@@ -1,8 +1,19 @@
 package app_structure;
 
-public class ADCI {
+public class ADCI extends Counter{
+
+	private int defectNr;
 	
-	public int valor;
-	public double lol;
- 
+	public ADCI(FileReader fr) {
+		super(fr);
+	}
+	
+	public void increment(boolean tool) {
+		this.defectNr = super.getFileReader().getLongMethod(false, false);
+	}
+	
+	public int ADCIdefect() {
+		return this.defectNr;
+	}
+	
 }
