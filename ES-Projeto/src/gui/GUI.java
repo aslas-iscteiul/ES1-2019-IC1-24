@@ -10,6 +10,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 
 public class GUI {
 	private JFrame frame;
@@ -22,6 +23,7 @@ public class GUI {
 	private JTable table_file;
 	
 	private JScrollPane scrollPane;
+	private JPanel filePanel;
 	
 	
 public GUI() {
@@ -54,6 +56,19 @@ public GUI() {
 		openButton = new JButton("Open File");
 		openButton.setBounds(395, 0, 100, 30);
 		import_panel.add(openButton);
+		
+		filePanel = new JPanel();
+		filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View", TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		filePanel.setBounds(15, 61, 544, 517);
+		contentPane.add(filePanel);
+		filePanel.setLayout(null);
+		
+		JScrollPane file_scrollPane = new JScrollPane();
+		file_scrollPane.setBounds(15, 28, 514, 473);
+		filePanel.add(file_scrollPane);
+		
+		table_file = new JTable();
+		file_scrollPane.setViewportView(table_file);
 }
 	
 	public static void main(String[] args) {
