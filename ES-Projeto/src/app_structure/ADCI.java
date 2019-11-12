@@ -9,7 +9,7 @@ public class ADCI extends Counter{
 	}
 	
 	public void increment(boolean tool) {
-		this.defectNr = super.getFileReader().getLongMethod(false, false);
+		this.defectNr = super.increments(false, false);
 	}
 	
 	public int ADCIdefect() {

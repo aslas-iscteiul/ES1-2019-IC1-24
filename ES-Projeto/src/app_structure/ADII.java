@@ -7,9 +7,9 @@ public class ADII extends Counter{
 	public ADII(FileReader fr) {
 		super(fr);
 	}
-
-	public void increment(boolean tool) {
-		this.defectNr = super.getFileReader().getLongMethod(true, false);	
+	
+	public void increment() {
+		this.defectNr = super.increments(true, false);	
 	}
 	
 	public int ADIIdefects() {
