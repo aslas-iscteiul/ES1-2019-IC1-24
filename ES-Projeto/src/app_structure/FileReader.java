@@ -126,10 +126,15 @@ public class FileReader {
 		//e.printAllFile();
 		
 		//Read file and get occurrences test
-		boolean a = true;
-		boolean b = true;
-		e.getLongMethod(a, b);
+		//boolean a = true;
+		//boolean b = true;
+		//e.getLongMethod(a, b);
 		// Row r = null;
-		//e.printRowValues(r);    
+		//e.printRowValues(r);   
+		
+	//FOR TEST ANTÓNIO
+		DCI dci = new DCI(e);
+		dci.DCIdefects();
+		System.out.println(dci);
 	}
 }
