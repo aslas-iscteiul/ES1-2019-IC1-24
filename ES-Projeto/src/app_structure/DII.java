@@ -8,11 +8,8 @@ public class DII extends Counter {
 		super(fr);
 	}
  
-	public void increment() {
-		this.defectNr = super.increments(false, true);	
-	}
-	
-	public int DIIdefects() {
+	public int increment() {
+		this.defectNr = super.increments(false, true);
 		return this.defectNr;
 	}
 }

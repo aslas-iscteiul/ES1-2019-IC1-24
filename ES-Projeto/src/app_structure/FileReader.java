@@ -134,7 +134,7 @@ public class FileReader {
 		
 	//FOR TEST ANTÓNIO
 		DCI dci = new DCI(e);
-		dci.DCIdefects();
+		dci.increment();
 		System.out.println(dci);
 	}
 }

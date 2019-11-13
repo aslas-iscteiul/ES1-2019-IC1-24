@@ -8,12 +8,9 @@ public class DCI extends Counter{
 		super(fr);
 	}
 	
-	public void increment() {
+	public int increment() {
 		this.defectNr = super.increments(true, true);	
-	}
-	
-	public int DCIdefects() {
 		return this.defectNr;
 	}
- 
+	
 }
