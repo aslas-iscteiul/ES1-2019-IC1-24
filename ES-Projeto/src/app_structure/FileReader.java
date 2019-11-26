@@ -14,10 +14,22 @@ public class FileReader {
  
 	private static final String PATH = "Long-Method.xlsx";
 	private static final String TITLE = "Long-Method";
+	
+	private static final int ID = 0;
+	private static final int LOC = 4;
+	private static final int CYCLO = 5;
+	private static final int ATFD = 6;
+	private static final int LAA = 7;
+	private static final int IS_LONG_METHOD = 8;
+	private static final int IPLASMA = 9;
+	private static final int PMD = 10;
+	private static final int IS_FEATURE_ENVY = 11;
 
 	private FileInputStream file;
 	private Workbook workbook;
 	private Sheet sheet;
+	
+	private int adci;
 
 	/**
 	 * Creates a FileReader instance for the file 'Long-Method.xlsx'.
@@ -27,6 +39,8 @@ public class FileReader {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
+		
+		this.adci = 0;
 	}
 	
 	/**
@@ -73,64 +87,45 @@ public class FileReader {
 		}
 	}
 	
-	//Antes eram dois métodos 
 	/**
-	 * Reads all file and returns the number of occurrences that checks the specified 
-	 * values with values of 9th and 10th/11th columns respectively 
-	 * @param longMethod - Value to compare with 9th column (Long_Method)
-	 * @param tool - Value to compare with 10th or 11th column (PMI/iPlasma)
-	 * @return number of occurrences that checks the specified 
-	 * values with values of 9th and 10th/11th columns respectively 
+	 * Reads all 'Long-Method.xlsx' file and increment each of counters based on 
+	 * 
 	 */
-	
-	/**
-	 * Reads the specified row and compare the boolean value of the 9th column with the 
-	 * specified value of obj_long_method; and compare the boolean value of 10th or 11th 
-	 * column with the specified value of tool. If the all boolean values are equals 
-	 * returns 1, otherwise returns 0.
-	 * @param row - The Row to be read.
-	 * @param longMethod - Value to compare with 9th column (Long_Method)
-	 * @param tool - Value to compare with 10th or 11th column (PMI/iPlasma)
-	 * @return 1 checks the condition, otherwise 0.
-	 */
-	public int getLongMethod(boolean longMethod, boolean tool) {				
+	public void verifyLongMethodDefects() {				
 		boolean long_method = false;
 		boolean iPlasma = false;
 		boolean pmd = false;
-		
-		int num = 0;
-		
+																	//false false false JÁ ESTÁ FEITO VERIFICAR MAIS UMA VEZ DPS
 		Iterator<Row> rowIterator = sheet.iterator();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
-			while (cellIterator.hasNext()) {
+			while (cellIterator.hasNext() && row.getRowNum() != 0) {				//Para ignorar a 1ª linha. Funciona?
 				Cell cell = cellIterator.next();
-				if(cell.getColumnIndex() == 9 && cell.getCellType() == CellType.BOOLEAN)
+				if(cell.getColumnIndex() == IS_LONG_METHOD && cell.getCellType() == CellType.BOOLEAN)
 					long_method = cell.getBooleanCellValue();
-				if(cell.getColumnIndex() == 10 && cell.getCellType() == CellType.BOOLEAN)
+				if(cell.getColumnIndex() == IPLASMA && cell.getCellType() == CellType.BOOLEAN)
 					iPlasma = cell.getBooleanCellValue();
-				if(cell.getColumnIndex() == 11 && cell.getCellType() == CellType.BOOLEAN)
+				if(cell.getColumnIndex() == PMD && cell.getCellType() == CellType.BOOLEAN)
 					pmd = cell.getBooleanCellValue();
 			}
-			if(long_method == longMethod && (iPlasma == tool || pmd == tool))
-				num++;
-		}
-		return num;	
+			System.out.println(long_method + " " + iPlasma + " " + pmd);			//TESTES
+			// this.adci.increment(long_method, iPlasma, pmd);						//Método por implementar nos contadores
+			// this.dii.increment(long_method, iPlasma, pmd);						// Colocar para todos os contadores
+		}												
 	}
 	
 	//FOR TEST
 	public static void main(String[] args) throws IOException {
 		FileReader e = new FileReader();
+		
 		//Prints all file test
 		//e.printAllFile();
 		
-		//Read file and get occurrences test
-		//boolean a = true;
-		//boolean b = true;
-		//e.getLongMethod(a, b);
-		// Row r = null;
-		//e.printRowValues(r);   
+		// Test for verifyLongMethodDefects
+		// Resposta para o ADCI = 140
+		e.verifyLongMethodDefects();
+		// System.out.println("Total= " + e.adci.getCount());				// Tirar comentário do sysout para testar
 		
 	//FOR TEST ANTÓNIO
 		DCI dci = new DCI(e);
