@@ -14,10 +14,10 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class FileReader {
- 
+
 	private static final String PATH = "Long-Method.xlsx";
 	private static final String TITLE = "Long-Method";
-	
+
 	private static final int ID = 0;
 	private static final int LOC = 4;
 	private static final int CYCLO = 5;
@@ -31,12 +31,12 @@ public class FileReader {
 	private FileInputStream file;
 	private Workbook workbook;
 	private Sheet sheet;
-	
+
 	private DCI dci;
 	private DII dii;
 	private ADCI adci;
 	private ADII adii;
-	
+
 	private CountersSystem counters;
 
 	/**
@@ -47,15 +47,15 @@ public class FileReader {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
-		
+
 		this.dci = new DCI();
 		this.dii = new DII();
 		this.adci = new ADCI();
 		this.adii = new ADII();
-		
+
 		this.counters = new CountersSystem();
 	}
-	
+
 	/**
 	 * Prints all file.
 	 */
@@ -66,7 +66,7 @@ public class FileReader {
 			printRowValues(row);
 		}
 	}
-	
+
 	/**
 	 * Prints the specified Row.
 	 * @param row - The Row to be printed.
@@ -79,9 +79,9 @@ public class FileReader {
 		}
 		System.out.println("\n");
 	}
-	
+
 	/**
-	 * Prints the specified Cell.
+	 * Prints the specified Cell based on cell type.
 	 * @param cell - The Cell to be printed.
 	 */
 	public void printCellValue(Cell cell) {
@@ -99,17 +99,19 @@ public class FileReader {
 			break;
 		}
 	}
-	
+
 	/**
-	 * Reads all 'Long-Method.xlsx' file and increment each of counters based on 
-	 * 
+	 * Reads all 'Long-Method.xlsx' file by each row and each cell, and increment the counters based 
+	 * on the values of iPlasma tool column (9th) and is_long_method column (8th).
+	 * Counters are reset to eliminate previously obtained results.
+	 * The first line of the excel file is ignored as it represents the column headings.
 	 */
 	public void iPlasmaLongMethodDefects() {	
 		this.counters.restart();
 		boolean long_method = false;
 		boolean iPlasma = false;															
 		Iterator<Row> rowIterator = sheet.iterator();
-	
+
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
@@ -125,13 +127,19 @@ public class FileReader {
 			}
 		}
 	}
-	
+
+	/**
+	 * Reads all 'Long-Method.xlsx' file by each row and cell, and increment the counters based 
+	 * on the values of PMD tool column (10th) and is_long_method column (8th).
+	 * Counters are reset to eliminate previously obtained results.
+	 * The first line of the excel file is ignored as it represents the column headings.
+	 */
 	public void pmdLongMethodDefects() {		
 		this.counters.restart();
 		boolean long_method = false;
 		boolean pmd = false;															
 		Iterator<Row> rowIterator = sheet.iterator();
-	
+
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
@@ -147,24 +155,41 @@ public class FileReader {
 			}
 		}
 	}
-	
+
+	/***
+	 * Returns true if the result condition is true. In other words, returns true if ???? 
+	 * @param rule - String rule with values and operators to compare
+	 * @param value1 - First value to compare (LOC or AFTD).
+	 * @param value2 - Second value to compare (CYCLO or LAA).
+	 * @return true if ????? não sei como explicar bahhh
+	 */
 	private boolean isDefect(String rule, int value1, double value2) {
 		String[] args = rule.split(";");
-		
+
 		boolean left_condition = RelationalOperator.parseOperator(args[1]).apply(value1, Integer.parseInt(args[2]));
 		boolean right_condition = RelationalOperator.parseOperator(args[5]).apply(value2, Double.parseDouble(args[6]));
 		boolean result = LogicOperator.parseOperator(args[3]).apply(left_condition, right_condition);
-		
+
 		return result;
 	}
-	
-	public void ruleLongMethodDefects(String rule) {	
+
+	/**
+	 * Reads all 'Long-Method.xlsx' file for each row and cell, and get the LOC (Number of Code Lines) and CYCLO (Cyclomatic Complexity) 
+	 * metric values from each method (from each row). It is evaluated for each method if it has long method defect. Subsequently, the values 
+	 * obtained are compared with the values of the is_long_method column (8th) and the counters are incremented according to the values obtained. 
+	 * Counters are reset to eliminate previously obtained results.
+	 * The first line of the excel file is ignored as it represents the column headings.
+	 * Method IDs that have the long method defect are stored in an integer list and then returned.
+	 * @param rule - String rule that specifies which methods have the long method defect, using the LOC and CYCLO metrics.
+	 * @return the list of integers that represent the method IDs with the long method defect, according to the specific rule.
+	 */
+	public List<Integer> ruleLongMethodDefects(String rule) {	
 		this.counters.restart();
 		boolean long_method = false;
 		int loc = 0;
 		int cyclo = 0;
 		List<Integer> ids = new ArrayList<Integer>();
-		
+
 		Iterator<Row> rowIterator = sheet.iterator();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
@@ -184,26 +209,27 @@ public class FileReader {
 			if(ruleResult) 						
 				ids.add(row.getRowNum());							//Lista de ids para enviar para a GUI
 		}
+		return ids;
 	}
-	
+
 	//FOR TEST
 	public static void main(String[] args) throws IOException {
 		FileReader e = new FileReader();
-		
+
 		//Prints all file test
 		//e.printAllFile();
-		
+
 		// Test for verifyLongMethodDefects
-//		e.iPlasmaLongMethodDefects();
-//		System.out.println("Total dci= " + e.dci.getDefectNr() );		
-//		System.out.println("Total dii= " + e.dii.getDefectNr() );
-//		System.out.println("Total adci= " + e.adci.getDefectNr() );
-//		System.out.println("Total adii= " + e.adii.getDefectNr() );
-		
+		//		e.iPlasmaLongMethodDefects();
+		//		System.out.println("Total dci= " + e.dci.getDefectNr() );		
+		//		System.out.println("Total dii= " + e.dii.getDefectNr() );
+		//		System.out.println("Total adci= " + e.adci.getDefectNr() );
+		//		System.out.println("Total adii= " + e.adii.getDefectNr() );
+
 		// test iPlasma - Colocar em comentários o restante código p/ ñ interferir 
-//		e.iPlasmaLongMethodDefects();
-//		System.out.println(e.counters.toString());
-		
+		//		e.iPlasmaLongMethodDefects();
+		//		System.out.println(e.counters.toString());
+
 	}
 }
 
