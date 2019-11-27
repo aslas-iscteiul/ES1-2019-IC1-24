@@ -48,7 +48,7 @@ public class CountersSystem {
 			this.adci++;
 		
 		if(long_method == true && value == false)
-			this.dci++;
+			this.adii++;
 	}
 	
 	public void restart() {
@@ -60,6 +60,6 @@ public class CountersSystem {
 
 	@Override
 	public String toString() {
-		return "DCI = " + this.dci + "\nDII = " + this.adii + "\nADCI = " + this.adci + "\nADII = " + this.adii;
+		return "DCI = " + this.dci + "\nDII = " + this.dii + "\nADCI = " + this.adci + "\nADII = " + this.adii;
 	}
 }

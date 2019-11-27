@@ -2,7 +2,10 @@ package app_structure;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -145,6 +148,44 @@ public class FileReader {
 		}
 	}
 	
+	private boolean isDefect(String rule, int value1, double value2) {
+		String[] args = rule.split(";");
+		
+		boolean left_condition = RelationalOperator.parseOperator(args[1]).apply(value1, Integer.parseInt(args[2]));
+		boolean right_condition = RelationalOperator.parseOperator(args[5]).apply(value2, Double.parseDouble(args[6]));
+		boolean result = LogicOperator.parseOperator(args[3]).apply(left_condition, right_condition);
+		
+		return result;
+	}
+	
+	public void ruleLongMethodDefects(String rule) {	
+		this.counters.restart();
+		boolean long_method = false;
+		int loc = 0;
+		int cyclo = 0;
+		List<Integer> ids = new ArrayList<Integer>();
+		
+		Iterator<Row> rowIterator = sheet.iterator();
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext() && row.getRowNum() != 0) {
+				Cell cell = cellIterator.next();
+				if(cell.getColumnIndex() == IS_LONG_METHOD && cell.getCellType() == CellType.BOOLEAN)
+					long_method = cell.getBooleanCellValue();
+				if(cell.getColumnIndex() == LOC && cell.getCellType() == CellType.NUMERIC)
+					loc = (int) cell.getNumericCellValue();
+				if(cell.getColumnIndex() == CYCLO && cell.getCellType() == CellType.NUMERIC)
+					cyclo = (int) cell.getNumericCellValue();
+			}
+			boolean ruleResult = isDefect(rule, loc, cyclo);
+			if(row.getRowNum() != 0)
+				this.counters.increment(long_method, ruleResult);
+			if(ruleResult) 						
+				ids.add(row.getRowNum());							//Lista de ids para enviar para a GUI
+		}
+	}
+	
 	//FOR TEST
 	public static void main(String[] args) throws IOException {
 		FileReader e = new FileReader();
@@ -159,9 +200,10 @@ public class FileReader {
 //		System.out.println("Total adci= " + e.adci.getDefectNr() );
 //		System.out.println("Total adii= " + e.adii.getDefectNr() );
 		
-		// test iPlasma
-		e.iPlasmaLongMethodDefects();
-		System.out.println(e.counters.toString());
+		// test iPlasma - Colocar em comentários o restante código p/ ñ interferir 
+//		e.iPlasmaLongMethodDefects();
+//		System.out.println(e.counters.toString());
+		
 	}
 }
 
