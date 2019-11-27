@@ -29,6 +29,5 @@ public class ADII extends Counter{
 		if(feature_envy == true && user_rule == false)
 			this.defectNr++;
 	}
-
 	
 }

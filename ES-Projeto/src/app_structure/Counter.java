@@ -5,4 +5,5 @@ public abstract class Counter {
 	public Counter() {
 	}
 
+	
 }

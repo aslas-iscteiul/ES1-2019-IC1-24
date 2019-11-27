@@ -30,4 +30,5 @@ public class DII extends Counter {
 					this.defectNr++;
 			}
 	
+			
 }

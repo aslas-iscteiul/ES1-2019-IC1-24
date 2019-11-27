@@ -29,5 +29,6 @@ public class DCI extends Counter{
 		if(feature_envy == true && user_rule == true)
 			this.defectNr++;
 	}
-		
+
+	
 }

@@ -30,5 +30,4 @@ public class ADCI extends Counter{
 			this.defectNr++;
 	}
 	
-	
 }
