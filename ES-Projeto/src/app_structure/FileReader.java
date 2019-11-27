@@ -33,6 +33,8 @@ public class FileReader {
 	private DII dii;
 	private ADCI adci;
 	private ADII adii;
+	
+	private CountersSystem counters;
 
 	/**
 	 * Creates a FileReader instance for the file 'Long-Method.xlsx'.
@@ -48,6 +50,7 @@ public class FileReader {
 		this.adci = new ADCI();
 		this.adii = new ADII();
 		
+		this.counters = new CountersSystem();
 	}
 	
 	/**
@@ -98,7 +101,8 @@ public class FileReader {
 	 * Reads all 'Long-Method.xlsx' file and increment each of counters based on 
 	 * 
 	 */
-	public void iPlasmaLongMethodDefects() {				
+	public void iPlasmaLongMethodDefects() {	
+		this.counters.restart();
 		boolean long_method = false;
 		boolean iPlasma = false;															
 		Iterator<Row> rowIterator = sheet.iterator();
@@ -114,18 +118,13 @@ public class FileReader {
 					iPlasma = cell.getBooleanCellValue();
 			}
 			if(row.getRowNum() != 0 ) {
-				this.dci.increment(long_method, iPlasma);
-				this.dii.increment(long_method, iPlasma);
-				this.adci.increment(long_method, iPlasma);
-				this.adii.increment(long_method, iPlasma);
+				this.counters.increment(long_method, iPlasma);
 			}
 		}
 	}
 	
-	/**
-	 * 
-	 */
-	public void pmdLongMethodDefects() {				
+	public void pmdLongMethodDefects() {		
+		this.counters.restart();
 		boolean long_method = false;
 		boolean pmd = false;															
 		Iterator<Row> rowIterator = sheet.iterator();
@@ -141,10 +140,7 @@ public class FileReader {
 					pmd = cell.getBooleanCellValue();
 			}
 			if(row.getRowNum() != 0 ) {
-				this.dci.increment(long_method, pmd);
-				this.dii.increment(long_method, pmd);
-				this.adci.increment(long_method, pmd);
-				this.adii.increment(long_method, pmd);
+				this.counters.increment(long_method, pmd);
 			}
 		}
 	}
@@ -157,12 +153,15 @@ public class FileReader {
 		//e.printAllFile();
 		
 		// Test for verifyLongMethodDefects
-		e.iPlasmaLongMethodDefects();
-		System.out.println("Total dci= " + e.dci.getDefectNr() );		
-		System.out.println("Total dii= " + e.dii.getDefectNr() );
-		System.out.println("Total adci= " + e.adci.getDefectNr() );
-		System.out.println("Total adii= " + e.adii.getDefectNr() );
+//		e.iPlasmaLongMethodDefects();
+//		System.out.println("Total dci= " + e.dci.getDefectNr() );		
+//		System.out.println("Total dii= " + e.dii.getDefectNr() );
+//		System.out.println("Total adci= " + e.adci.getDefectNr() );
+//		System.out.println("Total adii= " + e.adii.getDefectNr() );
 		
+		// test iPlasma
+		e.iPlasmaLongMethodDefects();
+		System.out.println(e.counters.toString());
 	}
 }
 
