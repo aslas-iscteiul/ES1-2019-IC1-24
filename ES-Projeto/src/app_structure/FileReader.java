@@ -29,10 +29,10 @@ public class FileReader {
 	private Workbook workbook;
 	private Sheet sheet;
 	
-	private DCI dci = new DCI();
-	private DII dii = new DII();
-	private ADCI adci = new ADCI();
-	private ADII adii = new ADII();
+	private DCI dci;
+	private DII dii;
+	private ADCI adci;
+	private ADII adii;
 
 	/**
 	 * Creates a FileReader instance for the file 'Long-Method.xlsx'.
@@ -42,6 +42,10 @@ public class FileReader {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
+		this.dci = new DCI();
+		this.dii = new DII();
+		this.adci = new ADCI();
+		this.adii = new ADII();
 		
 	}
 	
@@ -128,7 +132,7 @@ public class FileReader {
 		FileReader e = new FileReader();
 		
 		//Prints all file test
-		e.printAllFile();
+		//e.printAllFile();
 		
 		// Test for verifyLongMethodDefects
 		e.verifyLongMethodDefects();
