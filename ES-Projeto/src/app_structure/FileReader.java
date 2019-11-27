@@ -29,18 +29,20 @@ public class FileReader {
 	private Workbook workbook;
 	private Sheet sheet;
 	
-	private int adci;
+	private DCI dci = new DCI();
+	private DII dii = new DII();
+	private ADCI adci = new ADCI();
+	private ADII adii = new ADII();
 
 	/**
 	 * Creates a FileReader instance for the file 'Long-Method.xlsx'.
-	 * @throws IOException if an I/O error occurs.
+	 * @throws IOException if an I/O error occurs. 
 	 */
 	public FileReader() throws IOException {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
 		
-		this.adci = 0;
 	}
 	
 	/**
@@ -97,6 +99,8 @@ public class FileReader {
 		boolean pmd = false;
 																	//false false false JÁ ESTÁ FEITO VERIFICAR MAIS UMA VEZ DPS
 		Iterator<Row> rowIterator = sheet.iterator();
+	
+		int z=1;
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
@@ -109,10 +113,14 @@ public class FileReader {
 				if(cell.getColumnIndex() == PMD && cell.getCellType() == CellType.BOOLEAN)
 					pmd = cell.getBooleanCellValue();
 			}
-			System.out.println(long_method + " " + iPlasma + " " + pmd);			//TESTES
-			// this.adci.increment(long_method, iPlasma, pmd);						//Método por implementar nos contadores
-			// this.dii.increment(long_method, iPlasma, pmd);						// Colocar para todos os contadores
-		}												
+			
+			System.out.println("valores:" + z+ "      "+ long_method +" " + iPlasma +" "+ pmd);
+			this.dci.increment(long_method, iPlasma, pmd);
+			this.dii.increment(long_method, iPlasma, pmd);
+			this.adci.increment(long_method, iPlasma, pmd);
+			this.adii.increment(long_method, iPlasma, pmd);
+			z++;
+		}
 	}
 	
 	//FOR TEST
@@ -120,16 +128,15 @@ public class FileReader {
 		FileReader e = new FileReader();
 		
 		//Prints all file test
-		//e.printAllFile();
+		e.printAllFile();
 		
 		// Test for verifyLongMethodDefects
 		// Resposta para o ADCI = 140
 		e.verifyLongMethodDefects();
-		// System.out.println("Total= " + e.adci.getCount());				// Tirar comentário do sysout para testar
+		System.out.println("Total dci= " + e.dci.getDefectNr() );		
+		System.out.println("Total dii= " + e.dii.getDefectNr() );
+		System.out.println("Total adci= " + e.adci.getDefectNr() );
+		System.out.println("Total adii= " + e.adii.getDefectNr() );
 		
-	//FOR TEST ANTÓNIO
-		DCI dci = new DCI(e);
-		dci.DCIdefects();
-		System.out.println(dci);
 	}
 }
