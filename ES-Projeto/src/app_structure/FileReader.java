@@ -131,7 +131,6 @@ public class FileReader {
 		e.printAllFile();
 		
 		// Test for verifyLongMethodDefects
-		// Resposta para o ADCI = 140
 		e.verifyLongMethodDefects();
 		System.out.println("Total dci= " + e.dci.getDefectNr() );		
 		System.out.println("Total dii= " + e.dii.getDefectNr() );

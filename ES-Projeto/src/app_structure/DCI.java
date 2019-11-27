@@ -28,6 +28,6 @@ public class DCI extends Counter{
 	public void increment(boolean feature_envy, boolean user_rule) {
 		if(feature_envy == true && user_rule == true)
 			this.defectNr++;
-		}
+	}
 		
 }

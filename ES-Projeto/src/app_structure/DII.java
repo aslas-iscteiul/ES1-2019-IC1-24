@@ -30,8 +30,4 @@ public class DII extends Counter {
 					this.defectNr++;
 			}
 	
-	
-	public int DIIdefects() {
-		return this.defectNr;
-	}
 }
