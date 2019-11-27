@@ -13,9 +13,9 @@ public class ADII extends Counter{
 	}
 		
 	//SEPARAR AS FERRAMENTAS DA REGRA DO UTILIZADOR
-	public void increment (boolean long_method, boolean iPlasma, boolean pmd) {
-		if(long_method == true && (iPlasma == false || pmd == false))
-			this.defectNr++;
+	public void increment (boolean long_method, boolean tool) {
+		if(long_method == false && tool == true)
+				this.defectNr++;
 	}
 	
 	//COMPARAR OS 3 EM SIMULTANEO
@@ -24,10 +24,5 @@ public class ADII extends Counter{
 			this.defectNr++;
 	}
 	
-	//Futuro
-	public void increment(boolean feature_envy, boolean user_rule) {
-		if(feature_envy == true && user_rule == false)
-			this.defectNr++;
-	}
 	
 }

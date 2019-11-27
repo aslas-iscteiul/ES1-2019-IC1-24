@@ -13,9 +13,9 @@ public class ADCI extends Counter{
 	}
 	
 	//SEPARAR AS FERRAMENTAS DA REGRA DO UTILIZADOR
-	public void increment (boolean long_method, boolean iPlasma, boolean pmd) {
-		if(long_method == false && (iPlasma == false || pmd == false))
-			this.defectNr++;
+	public void increment (boolean long_method, boolean tool) {
+		if(long_method == false && tool == false)
+				this.defectNr++;
 	}
 	
 	//COMPARAR OS 3 EM SIMULTANEO
@@ -24,10 +24,6 @@ public class ADCI extends Counter{
 			this.defectNr++;
 	}
 	
-	//Futuro
-	public void increment(boolean feature_envy, boolean user_rule) {
-		if(feature_envy == false && user_rule == false)
-			this.defectNr++;
-	}
+	
 	
 }

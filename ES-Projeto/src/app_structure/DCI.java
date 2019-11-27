@@ -13,10 +13,10 @@ public class DCI extends Counter{
 	}
 	
 	//SEPARAR AS FERRAMENTAS DA REGRA DO UTILIZADOR
-	public void increment (boolean long_method, boolean iPlasma, boolean pmd) {
-		if(long_method == true && (iPlasma == true || pmd == true))
+	public void increment (boolean long_method, boolean tool) {
+		if(long_method == true && tool == true)
 				this.defectNr++;
-		}
+	}
 		
 	//COMPARAR OS 3 EM SIMULTANEO
 	public void increment (boolean long_method, boolean iPlasma, boolean pmd, boolean user_rule) {
@@ -25,10 +25,10 @@ public class DCI extends Counter{
 		}
 		
 	//Futuro
-	public void increment(boolean feature_envy, boolean user_rule) {
-		if(feature_envy == true && user_rule == true)
-			this.defectNr++;
-	}
+	//public void increment(boolean feature_envy, boolean user_rule) {
+	//	if(feature_envy == true && user_rule == true)
+	//		this.defectNr++;
+	//}
 
 	
 }

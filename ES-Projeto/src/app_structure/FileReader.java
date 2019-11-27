@@ -42,6 +42,7 @@ public class FileReader {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
+		
 		this.dci = new DCI();
 		this.dii = new DII();
 		this.adci = new ADCI();
@@ -97,33 +98,54 @@ public class FileReader {
 	 * Reads all 'Long-Method.xlsx' file and increment each of counters based on 
 	 * 
 	 */
-	public void verifyLongMethodDefects() {				
+	public void iPlasmaLongMethodDefects() {				
 		boolean long_method = false;
-		boolean iPlasma = false;
-		boolean pmd = false;
-																	//false false false JÁ ESTÁ FEITO VERIFICAR MAIS UMA VEZ DPS
+		boolean iPlasma = false;															
 		Iterator<Row> rowIterator = sheet.iterator();
 	
-		int z=1;
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			Iterator<Cell> cellIterator = row.cellIterator();
-			while (cellIterator.hasNext() && row.getRowNum() != 0) {				//Para ignorar a 1ª linha. Funciona?
+			while (cellIterator.hasNext() && row.getRowNum() != 0) {
 				Cell cell = cellIterator.next();
 				if(cell.getColumnIndex() == IS_LONG_METHOD && cell.getCellType() == CellType.BOOLEAN)
 					long_method = cell.getBooleanCellValue();
 				if(cell.getColumnIndex() == IPLASMA && cell.getCellType() == CellType.BOOLEAN)
 					iPlasma = cell.getBooleanCellValue();
+			}
+			if(row.getRowNum() != 0 ) {
+				this.dci.increment(long_method, iPlasma);
+				this.dii.increment(long_method, iPlasma);
+				this.adci.increment(long_method, iPlasma);
+				this.adii.increment(long_method, iPlasma);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	 */
+	public void pmdLongMethodDefects() {				
+		boolean long_method = false;
+		boolean pmd = false;															
+		Iterator<Row> rowIterator = sheet.iterator();
+	
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext() && row.getRowNum() != 0) {
+				Cell cell = cellIterator.next();
+				if(cell.getColumnIndex() == IS_LONG_METHOD && cell.getCellType() == CellType.BOOLEAN)
+					long_method = cell.getBooleanCellValue();
 				if(cell.getColumnIndex() == PMD && cell.getCellType() == CellType.BOOLEAN)
 					pmd = cell.getBooleanCellValue();
 			}
-			
-			System.out.println("valores:" + z+ "      "+ long_method +" " + iPlasma +" "+ pmd);
-			this.dci.increment(long_method, iPlasma, pmd);
-			this.dii.increment(long_method, iPlasma, pmd);
-			this.adci.increment(long_method, iPlasma, pmd);
-			this.adii.increment(long_method, iPlasma, pmd);
-			z++;
+			if(row.getRowNum() != 0 ) {
+				this.dci.increment(long_method, pmd);
+				this.dii.increment(long_method, pmd);
+				this.adci.increment(long_method, pmd);
+				this.adii.increment(long_method, pmd);
+			}
 		}
 	}
 	
@@ -135,7 +157,7 @@ public class FileReader {
 		//e.printAllFile();
 		
 		// Test for verifyLongMethodDefects
-		e.verifyLongMethodDefects();
+		e.iPlasmaLongMethodDefects();
 		System.out.println("Total dci= " + e.dci.getDefectNr() );		
 		System.out.println("Total dii= " + e.dii.getDefectNr() );
 		System.out.println("Total adci= " + e.adci.getDefectNr() );
