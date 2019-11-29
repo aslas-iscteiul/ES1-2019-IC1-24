@@ -32,11 +32,6 @@ public class FileReader {
 	private Workbook workbook;
 	private Sheet sheet;
 
-	private DCI dci;
-	private DII dii;
-	private ADCI adci;
-	private ADII adii;
-
 	private CountersSystem counters;
 
 	/**
@@ -47,11 +42,6 @@ public class FileReader {
 		this.file = new FileInputStream(PATH); 
 		this.workbook = new XSSFWorkbook(file);
 		this.sheet = workbook.getSheet(TITLE);
-
-		this.dci = new DCI();
-		this.dii = new DII();
-		this.adci = new ADCI();
-		this.adii = new ADII();
 
 		this.counters = new CountersSystem();
 	}
@@ -212,6 +202,50 @@ public class FileReader {
 		return ids;
 	}
 
+	
+	
+	/**
+	 * Reads all 'Long-Method.xlsx' file for each row and cell, and get the ATFD (method accesses to methods of other classes) and LAA (method accesses to attributes of the class itself) 
+	 * metric values from each method (from each row). It is evaluated for each method if it has long method defect. Subsequently, the values 
+	 * obtained are compared with the values of the is_feature_envy column (11st) and the counters are incremented according to the values obtained. 
+	 * Counters are reset to eliminate previously obtained results.
+	 * The first line of the excel file is ignored as it represents the column headings.
+	 * Method IDs that have the long method defect are stored in an integer list and then returned.
+	 * @param rule - String rule that specifies which methods have the long method defect, using the ATFD and LAA metrics.
+	 * @return the list of integers that represent the method IDs with the long method defect, according to the specific rule.
+	 */
+	public List<Integer> ruleFeatureEnvyDefects(String rule) {	
+		this.counters.restart();
+		boolean feature_envy = false;
+		int atfd = 0;
+		int laa = 0;
+		List<Integer> ids = new ArrayList<Integer>();
+
+		Iterator<Row> rowIterator = sheet.iterator();
+		while (rowIterator.hasNext()) {
+			Row row = rowIterator.next();
+			Iterator<Cell> cellIterator = row.cellIterator();
+			while (cellIterator.hasNext() && row.getRowNum() != 0) {
+				Cell cell = cellIterator.next();
+				if(cell.getColumnIndex() == IS_FEATURE_ENVY && cell.getCellType() == CellType.BOOLEAN)
+					feature_envy = cell.getBooleanCellValue();
+				if(cell.getColumnIndex() == ATFD && cell.getCellType() == CellType.NUMERIC)
+					atfd = (int) cell.getNumericCellValue();
+				if(cell.getColumnIndex() == LAA && cell.getCellType() == CellType.NUMERIC)
+					laa = (int) cell.getNumericCellValue();
+			}
+			boolean ruleResult = isDefect(rule, atfd, laa);
+			if(row.getRowNum() != 0)
+				this.counters.increment(feature_envy, ruleResult);
+			if(ruleResult) 						
+				ids.add(row.getRowNum());							//Lista de ids para enviar para a GUI
+		}
+		return ids;
+	}
+	
+	
+	
+	
 	//FOR TEST
 	public static void main(String[] args) throws IOException {
 		FileReader e = new FileReader();
