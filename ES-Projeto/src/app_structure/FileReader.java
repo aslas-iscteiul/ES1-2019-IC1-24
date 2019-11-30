@@ -253,16 +253,24 @@ public class FileReader {
 		//Prints all file test
 		//e.printAllFile();
 
-		// Test for verifyLongMethodDefects
-		//		e.iPlasmaLongMethodDefects();
-		//		System.out.println("Total dci= " + e.dci.getDefectNr() );		
-		//		System.out.println("Total dii= " + e.dii.getDefectNr() );
-		//		System.out.println("Total adci= " + e.adci.getDefectNr() );
-		//		System.out.println("Total adii= " + e.adii.getDefectNr() );
+		// Test for iPlasma tool
+		//Correct answer: DCI = 140; DII = 0; ADCI = 280; ADII = 0;  
+		e.iPlasmaLongMethodDefects();
+		System.out.println(e.counters.toString());
+				
+		//Incomplete
+		e.pmdLongMethodDefects();
+		System.out.println(e.counters.toString());
 
-		// test iPlasma - Colocar em comentários o restante código p/ ñ interferir 
-		//		e.iPlasmaLongMethodDefects();
-		//		System.out.println(e.counters.toString());
+		//Incomplete
+		String test = "LOC;>;200;AND;CYCLO;>;100";
+		e.ruleLongMethodDefects(test);
+		System.out.println(e.counters.toString());
+		
+		//Incomplete
+		String test2 = "ATFD;>;50;AND;LAA;>;0";
+		e.ruleFeatureEnvyDefects(test2);
+		System.out.println(e.counters.toString());
 
 	}
 }
