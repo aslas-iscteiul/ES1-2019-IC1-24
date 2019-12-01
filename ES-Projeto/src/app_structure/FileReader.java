@@ -218,7 +218,7 @@ public class FileReader {
 		this.counters.restart();
 		boolean feature_envy = false;
 		int atfd = 0;
-		int laa = 0;
+		double laa = 0;
 		List<Integer> ids = new ArrayList<Integer>();
 
 		Iterator<Row> rowIterator = sheet.iterator();
@@ -231,8 +231,10 @@ public class FileReader {
 					feature_envy = cell.getBooleanCellValue();
 				if(cell.getColumnIndex() == ATFD && cell.getCellType() == CellType.NUMERIC)
 					atfd = (int) cell.getNumericCellValue();
-				if(cell.getColumnIndex() == LAA && cell.getCellType() == CellType.NUMERIC)
-					laa = (int) cell.getNumericCellValue();
+				if(cell.getColumnIndex() == LAA && cell.getCellType() == CellType.NUMERIC){
+					laa = (double) cell.getNumericCellValue();
+					System.out.println("value:" + cell.getNumericCellValue());
+				}
 			}
 			boolean ruleResult = isDefect(rule, atfd, laa);
 			if(row.getRowNum() != 0)
@@ -251,7 +253,7 @@ public class FileReader {
 		FileReader e = new FileReader();
 
 		//Prints all file test
-		//e.printAllFile();
+		  e.printAllFile();
 
 		
 		//LongMethod: 140 (V) ; 280 (F)
