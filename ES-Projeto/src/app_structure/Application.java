@@ -12,4 +12,10 @@ public class Application {
 		this.fr=fr;
 	}
 	
+	public FileReader getFileReader() {
+		return this.fr;
+	}
+	
+	
+	//process rule - envolve receber a string e processa-la 
 }
