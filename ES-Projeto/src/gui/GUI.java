@@ -84,8 +84,7 @@ public class GUI extends Observable {
 	public void init() {
 		frame = new JFrame("BugBuster");
 		frame.setBackground(new Color(240, 240, 240));
-		frame.setIconImage(Toolkit.getDefaultToolkit()
-				.getImage("C:\\Users\\anabe\\OneDrive\\Ambiente de Trabalho\\web-crawler.png"));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/web-crawler.png")));
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
