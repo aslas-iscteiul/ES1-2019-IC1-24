@@ -42,7 +42,6 @@ import com.jgoodies.forms.layout.FormSpecs;
 import com.jgoodies.forms.layout.RowSpec;
 
 import app_structure.Application;
-import app_structure.FileReader;
 import net.miginfocom.swing.MigLayout;
 
 public class GUI extends Observable {
@@ -51,7 +50,7 @@ public class GUI extends Observable {
 
 	private JFrame frame;
 	private JPanel contentPane;
-	private JPanel import_panel;
+	private JPanel view_panel;
 	private JButton viewButton;
 
 	private JComboBox tooOrRuleComboBox;
@@ -84,45 +83,46 @@ public class GUI extends Observable {
 	}
 
 	public void init() {
-		frame = new JFrame("BugBuster");
+		// Frame setup
+		frame = new JFrame("Quick");
 		frame.setBackground(new Color(240, 240, 240));
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/web-crawler.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/clock.png")));
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(50, 50, 1008, 643);
 
+		// Menu bar
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
-
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
-
 		JCheckBoxMenuItem chckbxmntmUserGuide = new JCheckBoxMenuItem("User Guide");
 		mnHelp.add(chckbxmntmUserGuide);
-
-		JCheckBoxMenuItem chckbxmntmAboutBugbuster = new JCheckBoxMenuItem("About BugBuster");
+		JCheckBoxMenuItem chckbxmntmAboutBugbuster = new JCheckBoxMenuItem("About Quick");
 		mnHelp.add(chckbxmntmAboutBugbuster);
+
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
 		contentPane.setLayout(new MigLayout("", "[544.00px][414.00,grow]", "[29px][grow][][404px,grow]"));
-		
-				import_panel = new JPanel();
-				contentPane.add(import_panel, "cell 0 0 1 2,grow");
-				import_panel.setLayout(null);
-				
-						JLabel fileName_lbl = new JLabel("File Name:");
-						fileName_lbl.setBounds(125, 5, 100, 20);
-						import_panel.add(fileName_lbl);
-						
-								viewButton = new JButton("View File");
-								viewButton.setBounds(0, 0, 100, 30);
-								import_panel.add(viewButton);
-								
-										JLabel lblNameimg = new JLabel("Long-Method.xml");
-										lblNameimg.setBounds(215, 5, 155, 20);
-										import_panel.add(lblNameimg);
+
+		view_panel = new JPanel();
+		contentPane.add(view_panel, "cell 0 0 1 2,grow");
+		view_panel.setLayout(null);
+
+		JLabel fileLabel = new JLabel("File Name:");
+		fileLabel.setBounds(125, 5, 100, 20);
+		view_panel.add(fileLabel);
+
+		viewButton = new JButton("View File");
+		viewButton.setBounds(0, 0, 100, 30);
+
+		view_panel.add(viewButton);
+
+		JLabel fileName = new JLabel("Long-Method.xml");
+		fileName.setBounds(215, 5, 155, 20);
+		view_panel.add(fileName);
 
 		JPanel rulesPanel = new JPanel();
 		contentPane.add(rulesPanel, "cell 1 0 1 4,grow");
@@ -157,27 +157,27 @@ public class GUI extends Observable {
 		JLabel dciLabel = new JLabel("DCI");
 		rulesPanel.add(dciLabel, "flowx,cell 0 5,growx,aligny center");
 
-		JPanel panel = new JPanel();
-		panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel.setForeground(new Color(0, 0, 0));
-		panel.setBackground(Color.WHITE);
-		rulesPanel.add(panel, "flowx,cell 0 6,grow");
-		panel.setLayout(new MigLayout("", "[grow]", "[]"));
+		JPanel dciPanel = new JPanel();
+		dciPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		dciPanel.setForeground(new Color(0, 0, 0));
+		dciPanel.setBackground(Color.WHITE);
+		rulesPanel.add(dciPanel, "flowx,cell 0 6,grow");
+		dciPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 
 		dciValue = new JLabel(" ");
-		panel.add(dciValue, "cell 0 0");
+		dciPanel.add(dciValue, "cell 0 0");
 
 		JLabel adiiLabel_1 = new JLabel("ADII");
 		rulesPanel.add(adiiLabel_1, "flowx,cell 0 7,growx");
 
-		JPanel panel_2 = new JPanel();
-		panel_2.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_2.setBackground(Color.WHITE);
-		rulesPanel.add(panel_2, "flowx,cell 0 8,grow");
-		panel_2.setLayout(new MigLayout("", "[grow]", "[]"));
+		JPanel adiiPanel = new JPanel();
+		adiiPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		adiiPanel.setBackground(Color.WHITE);
+		rulesPanel.add(adiiPanel, "flowx,cell 0 8,grow");
+		adiiPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 
 		adiiValue = new JLabel(" ");
-		panel_2.add(adiiValue, "cell 0 0");
+		adiiPanel.add(adiiValue, "cell 0 0");
 
 		JLabel methodIdsLabel = new JLabel("Method IDs:");
 		rulesPanel.add(methodIdsLabel, "cell 0 10");
@@ -190,49 +190,49 @@ public class GUI extends Observable {
 		JLabel adiiLabel = new JLabel("ADCI");
 		rulesPanel.add(adiiLabel, "cell 0 7,growx");
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_1.setBackground(Color.WHITE);
-		rulesPanel.add(panel_1, "cell 0 6,grow");
-		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
+		JPanel diiPanel = new JPanel();
+		diiPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		diiPanel.setBackground(Color.WHITE);
+		rulesPanel.add(diiPanel, "cell 0 6,grow");
+		diiPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 
 		diiValue = new JLabel(" ");
-		panel_1.add(diiValue, "cell 0 0");
+		diiPanel.add(diiValue, "cell 0 0");
 
-		JPanel panel_3 = new JPanel();
-		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		panel_3.setBackground(Color.WHITE);
-		rulesPanel.add(panel_3, "cell 0 8,grow");
-		panel_3.setLayout(new MigLayout("", "[grow]", "[]"));
+		JPanel adciPanel = new JPanel();
+		adciPanel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		adciPanel.setBackground(Color.WHITE);
+		rulesPanel.add(adciPanel, "cell 0 8,grow");
+		adciPanel.setLayout(new MigLayout("", "[grow]", "[]"));
 
 		adciValue = new JLabel(" ");
-		panel_3.add(adciValue, "cell 0 0");
+		adciPanel.add(adciValue, "cell 0 0");
 		idsList = new JList<>();
 		idsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		idsList.setModel(idsListModel);
 
-		JScrollPane listPanel = new JScrollPane(idsList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		JScrollPane idsListPanel = new JScrollPane(idsList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-		listPanel.setBounds(15, 28, 514, 365);
+		idsListPanel.setBounds(15, 28, 514, 365);
 
-		rulesPanel.add(listPanel, "cell 0 11,grow");
-		
-				filePanel = new JPanel();
-				filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View",
-						TitledBorder.CENTER, TitledBorder.TOP, null, null));
-				contentPane.add(filePanel, "cell 0 2 1 2,grow");
-				
-						JScrollPane file_scrollPane = new JScrollPane();
-						
-								file_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-								file_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-								file_scrollPane.setBounds(15, 28, 514, 365);
-								filePanel.add(file_scrollPane);
-								
-										table_file = new JTable();
-										table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-										file_scrollPane.setViewportView(table_file);
+		rulesPanel.add(idsListPanel, "cell 0 11,grow");
+
+		filePanel = new JPanel();
+		filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View",
+				TitledBorder.CENTER, TitledBorder.TOP, null, null));
+		contentPane.add(filePanel, "cell 0 2 1 2,grow");
+
+		JScrollPane file_scrollPane = new JScrollPane();
+
+		file_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		file_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		file_scrollPane.setBounds(15, 28, 514, 365);
+		filePanel.add(file_scrollPane);
+
+		table_file = new JTable();
+		table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		file_scrollPane.setViewportView(table_file);
 
 	}
 
@@ -270,7 +270,7 @@ public class GUI extends Observable {
 			public void actionPerformed(ActionEvent arg0) {
 				if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Tool") {
 					INSTANCE.createToolFrame();
-				} else {
+				} else if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Rule") {
 					INSTANCE.createRuleFrame();
 				}
 			}
@@ -307,8 +307,6 @@ public class GUI extends Observable {
 				toolFrame.setVisible(true);
 				toolFrame.setResizable(false);
 
-				/* ******** Listener ****** */
-
 				applyButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						INSTANCE.currentTool = toolCombo.getSelectedItem().toString();
@@ -316,22 +314,17 @@ public class GUI extends Observable {
 						if (INSTANCE.currentTool.equals("iPlasma")) {
 							currentRuleLabelDisplay.setText("iPlasma");
 							INSTANCE.app.getFileReader().iPlasmaLongMethodDefects();
-							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-
 						} else {
 							currentRuleLabelDisplay.setText("PMD");
 							INSTANCE.app.getFileReader().pmdLongMethodDefects();
-							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-
 						}
-						SwingUtilities.invokeLater(new Runnable() {
 
+						INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
+						INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+						INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
+						INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+
+						SwingUtilities.invokeLater(new Runnable() {
 							@Override
 							public void run() {
 								idsListModel.clear();
@@ -339,10 +332,8 @@ public class GUI extends Observable {
 						});
 
 						toolFrame.dispose();
-
 					}
 				});
-
 			}
 		});
 	}
@@ -367,16 +358,16 @@ public class GUI extends Observable {
 						new RowSpec[] { FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC,
 								FormSpecs.RELATED_GAP_ROWSPEC, FormSpecs.DEFAULT_ROWSPEC, }));
 
-				JLabel lblChooseOneOf = new JLabel("Choose one of the following rules:");
-				contentPane.add(lblChooseOneOf, "2, 2, left, center");
+				JLabel explanationLabel = new JLabel("Choose one of the following rules:");
+				contentPane.add(explanationLabel, "2, 2, left, center");
 
-				JComboBox comboBox = new JComboBox();
-				comboBox.setBackground(Color.WHITE);
-				comboBox.setModel(new DefaultComboBoxModel(new String[] { "Long Method", "Feature Envy" }));
-				contentPane.add(comboBox, "2, 4, fill, default");
+				JComboBox rulesComboBox = new JComboBox();
+				rulesComboBox.setBackground(Color.WHITE);
+				rulesComboBox.setModel(new DefaultComboBoxModel(new String[] { "Long Method", "Feature Envy" }));
+				contentPane.add(rulesComboBox, "2, 4, fill, default");
 
-				JButton btnChoose = new JButton("Choose");
-				contentPane.add(btnChoose, "4, 4");
+				JButton chooseButton = new JButton("Choose");
+				contentPane.add(chooseButton, "4, 4");
 
 				ruleFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
 				ruleFrame.pack();
@@ -384,15 +375,11 @@ public class GUI extends Observable {
 				ruleFrame.setVisible(true);
 				ruleFrame.setResizable(false);
 
-				btnChoose.addActionListener(new ActionListener() {
+				chooseButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
-						INSTANCE.currentRuleOption = comboBox.getSelectedItem().toString();
-						// MÉTODO PARA MOSTRAR OS DEFEITOS COM A AJUDA DA SOFIA/TONI
-						if (INSTANCE.currentRuleOption.equals("Feature Envy")) {
-							INSTANCE.createFeatEnvyFrame();
-						} else {
-							INSTANCE.createLongMethodFrame();
-						}
+						INSTANCE.currentRuleOption = rulesComboBox.getSelectedItem().toString();
+
+						INSTANCE.createSpecificRuleFrame(INSTANCE.currentRuleOption);
 
 						ruleFrame.dispose();
 					}
@@ -402,14 +389,14 @@ public class GUI extends Observable {
 		});
 	}
 
-	public void createFeatEnvyFrame() {
+	public void createSpecificRuleFrame(String nameRule) {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
 
-				JFrame featEnvyFrame = new JFrame("Feauture Envy Rule");
-				featEnvyFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				featEnvyFrame.setBounds(100, 100, 570, 150);
+				JFrame ruleFrame = new JFrame(nameRule + " Rule");
+				ruleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				ruleFrame.setBounds(100, 100, 570, 150);
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				} catch (Exception e) {
@@ -420,8 +407,8 @@ public class GUI extends Observable {
 				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 				contentPane.setLayout(new MigLayout("", "[][]", "[][]"));
 
-				JLabel lblFillInAll = new JLabel("Fill in all the blanks:");
-				contentPane.add(lblFillInAll, "cell 0 0");
+				JLabel explanationLabel = new JLabel("Fill in all the blanks:");
+				contentPane.add(explanationLabel, "cell 0 0");
 
 				JPanel panel = new JPanel();
 				panel.setBackground(Color.WHITE);
@@ -429,206 +416,125 @@ public class GUI extends Observable {
 				contentPane.add(panel, "cell 0 1,grow");
 				panel.setLayout(new MigLayout("", "[][grow][grow][grow][][grow][grow][]", "[]"));
 
-				JLabel lblIfAtfd = new JLabel("IF ( ATFD ");
-				panel.add(lblIfAtfd, "cell 0 0,alignx trailing");
+				//which columns to consider
+				JLabel firstColumn;
+				JLabel secondColumn;
 
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
-				panel.add(comboBox, "cell 1 0,growx");
-
-				JTextField textField = new JTextField();
-				panel.add(textField, "cell 2 0,growx");
-				textField.setColumns(10);
-
-				JComboBox comboBox_1 = new JComboBox();
-				comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "AND", "OR" }));
-				panel.add(comboBox_1, "cell 3 0,growx");
-
-				JLabel lblLaa = new JLabel("LAA");
-				panel.add(lblLaa, "cell 4 0,alignx trailing");
-
-				JComboBox comboBox_2 = new JComboBox();
-				comboBox_2.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
-				panel.add(comboBox_2, "cell 5 0,growx");
-
-				JTextField textField_1 = new JTextField();
-				panel.add(textField_1, "cell 6 0,growx");
-				textField_1.setColumns(10);
-
-				JLabel label = new JLabel(")");
-				panel.add(label, "cell 7 0");
-
-				JButton btnApply = new JButton("Apply");
-				contentPane.add(btnApply, "cell 1 1");
-
-				btnApply.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
-
-						try {
-							int i_txtfield = Integer.parseInt(textField.getText());
-							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = "ATFD;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
-									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA;"
-									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
-							System.out.println(currentRule);
-
-							List<Integer> auxList = INSTANCE.app.getFileReader()
-									.ruleFeatureEnvyDefects(INSTANCE.currentRule);
-
-							SwingUtilities.invokeLater(new Runnable() {
-
-								@Override
-								public void run() {
-									idsListModel.clear();
-									for (Integer i : auxList) {
-										idsListModel.addElement(i);
-									}
-
-								}
-							});
-
-							currentRuleLabelDisplay.setText("is_feature_envy = IF ( ATFD "
-									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
-									+ comboBox_1.getSelectedItem().toString() + " LAA "
-									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
-
-							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-
-							featEnvyFrame.dispose();
-						} catch (NumberFormatException nfe) {
-							JOptionPane.showMessageDialog(null, "Only numberss!");
-							textField.setText("");
-							textField_1.setText("");
-						}
-					}
-				});
-
-				featEnvyFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
-				featEnvyFrame.pack();
-				featEnvyFrame.setLocationByPlatform(true);
-				featEnvyFrame.setVisible(true);
-				featEnvyFrame.setResizable(false);
-
-			}
-		});
-
-	}
-
-	public void createLongMethodFrame() {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				JTextField textField;
-				JTextField textField_1;
-
-				JFrame longMethodFrame = new JFrame("Long Method Rule");
-				longMethodFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				longMethodFrame.setBounds(100, 100, 570, 150);
-				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-				} catch (Exception e) {
-					e.printStackTrace();
+				if (nameRule.equals("Feature Envy")) {
+					firstColumn = new JLabel("IF ( ATFD ");
+					panel.add(firstColumn, "cell 0 0,alignx trailing");
+					secondColumn = new JLabel("LAA");
+					panel.add(secondColumn, "cell 4 0,alignx trailing");
+				} else {
+					firstColumn = new JLabel("IF ( LOC ");
+					panel.add(firstColumn, "cell 0 0,alignx trailing");
+					secondColumn = new JLabel("CYCLO");
+					panel.add(secondColumn, "cell 4 0,alignx trailing");
 				}
 
-				JPanel contentPane = new JPanel();
-				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-				contentPane.setLayout(new MigLayout("", "[][]", "[][]"));
+				JComboBox comboBox1 = new JComboBox();
+				comboBox1.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
+				panel.add(comboBox1, "cell 1 0,growx");
 
-				JLabel lblFillInAll = new JLabel("Fill in all the blanks:");
-				contentPane.add(lblFillInAll, "cell 0 0");
+				JTextField firstNumber = new JTextField();
+				panel.add(firstNumber, "cell 2 0,growx");
+				firstNumber.setColumns(10);
 
-				JPanel panel = new JPanel();
-				panel.setBackground(Color.WHITE);
-				panel.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-				contentPane.add(panel, "cell 0 1,grow");
-				panel.setLayout(new MigLayout("", "[][grow][grow][grow][][grow][grow][]", "[]"));
+				JComboBox comboBox2 = new JComboBox();
+				comboBox2.setModel(new DefaultComboBoxModel(new String[] { "AND", "OR" }));
+				panel.add(comboBox2, "cell 3 0,growx");
 
-				JLabel lblIfAtfd = new JLabel("IF ( LOC ");
-				panel.add(lblIfAtfd, "cell 0 0,alignx trailing");
+				JComboBox comboBox3 = new JComboBox();
+				comboBox3.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
+				panel.add(comboBox3, "cell 5 0,growx");
 
-				JComboBox comboBox = new JComboBox();
-				comboBox.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
-				panel.add(comboBox, "cell 1 0,growx");
+				JTextField secondNumber = new JTextField();
+				panel.add(secondNumber, "cell 6 0,growx");
+				secondNumber.setColumns(10);
 
-				textField = new JTextField();
-				panel.add(textField, "cell 2 0,growx");
-				textField.setColumns(10);
+				JLabel endLabel = new JLabel(")");
+				panel.add(endLabel, "cell 7 0");
 
-				JComboBox comboBox_1 = new JComboBox();
-				comboBox_1.setModel(new DefaultComboBoxModel(new String[] { "AND", "OR" }));
-				panel.add(comboBox_1, "cell 3 0,growx");
+				JButton applyButton = new JButton("Apply");
+				contentPane.add(applyButton, "cell 1 1");
 
-				JLabel lblLaa = new JLabel("CYCLO");
-				panel.add(lblLaa, "cell 4 0,alignx trailing");
-
-				JComboBox comboBox_2 = new JComboBox();
-				comboBox_2.setModel(new DefaultComboBoxModel(new String[] { "<", ">" }));
-				panel.add(comboBox_2, "cell 5 0,growx");
-
-				textField_1 = new JTextField();
-				panel.add(textField_1, "cell 6 0,growx");
-				textField_1.setColumns(10);
-
-				JLabel label = new JLabel(")");
-				panel.add(label, "cell 7 0");
-
-				JButton btnApply = new JButton("Apply");
-				contentPane.add(btnApply, "cell 1 1");
-
-				btnApply.addActionListener(new ActionListener() {
+				applyButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
+						List<Integer> auxList;
+
 						try {
-							int i_txtfield = Integer.parseInt(textField.getText());
-							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = "LOC;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
-									+ ";" + comboBox_1.getSelectedItem().toString() + ";CYCLO;"
-									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
-							System.out.println(currentRule);
+							int i_txtfield = Integer.parseInt(firstNumber.getText());
+							int i_txtfield1 = Integer.parseInt(secondNumber.getText());
 
-							List<Integer> auxList = INSTANCE.app.getFileReader()
-									.ruleLongMethodDefects(INSTANCE.currentRule);
+							if (nameRule.equals("Feature Envy")) {
+								currentRule = "ATFD;" + comboBox1.getSelectedItem().toString() + ";"
+										+ firstNumber.getText() + ";" + comboBox2.getSelectedItem().toString() + ";LAA;"
+										+ comboBox3.getSelectedItem().toString() + ";" + secondNumber.getText();
 
-							SwingUtilities.invokeLater(new Runnable() {
+								auxList = INSTANCE.app.getFileReader().ruleFeatureEnvyDefects(INSTANCE.currentRule);
 
-								@Override
-								public void run() {
-									idsListModel.clear();
-									for (Integer i : auxList) {
-										idsListModel.addElement(i);
+								SwingUtilities.invokeLater(new Runnable() {
+									@Override
+									public void run() {
+										idsListModel.clear();
+										for (Integer i : auxList) {
+											idsListModel.addElement(i);
+										}
 									}
+								});
 
-								}
-							});
+								currentRuleLabelDisplay.setText("is_feature_envy = IF ( ATFD "
+										+ comboBox1.getSelectedItem().toString() + " " + firstNumber.getText() + " "
+										+ comboBox2.getSelectedItem().toString() + " LAA "
+										+ comboBox3.getSelectedItem().toString() + " " + secondNumber.getText() + " )");
 
-							currentRuleLabelDisplay.setText("is_long_method = IF ( LOC "
-									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
-									+ comboBox_1.getSelectedItem().toString() + " CYCLO "
-									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
+							} else {
+								currentRule = "LOC;" + comboBox1.getSelectedItem().toString() + ";" + firstNumber.getText()
+										+ ";" + comboBox2.getSelectedItem().toString() + ";CYCLO;"
+										+ comboBox3.getSelectedItem().toString() + ";" + secondNumber.getText();
+
+								auxList = INSTANCE.app.getFileReader().ruleLongMethodDefects(INSTANCE.currentRule);
+
+								SwingUtilities.invokeLater(new Runnable() {
+									@Override
+									public void run() {
+										idsListModel.clear();
+										for (Integer i : auxList) {
+											idsListModel.addElement(i);
+										}
+									}
+								});
+
+								currentRuleLabelDisplay.setText("is_long_method = IF ( LOC "
+										+ comboBox1.getSelectedItem().toString() + " " + firstNumber.getText() + " "
+										+ comboBox2.getSelectedItem().toString() + " CYCLO "
+										+ comboBox3.getSelectedItem().toString() + " " + secondNumber.getText() + " )");
+
+							}
+
+							System.out.println(currentRule);
 
 							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
 							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
 							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
 							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 
-							longMethodFrame.dispose();
+							ruleFrame.dispose();
+
 						} catch (NumberFormatException nfe) {
-							JOptionPane.showMessageDialog(null, "Only numberss!");
-							textField.setText("");
-							textField_1.setText("");
+							JOptionPane.showMessageDialog(null, "Only numbers!");
+							firstNumber.setText("");
+							secondNumber.setText("");
 						}
 					}
-
 				});
 
-				longMethodFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
-				longMethodFrame.pack();
-				longMethodFrame.setLocationByPlatform(true);
-				longMethodFrame.setVisible(true);
-				longMethodFrame.setResizable(false);
+				ruleFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
+				ruleFrame.pack();
+				ruleFrame.setLocationByPlatform(true);
+				ruleFrame.setVisible(true);
+				ruleFrame.setResizable(false);
 
 			}
 		});
