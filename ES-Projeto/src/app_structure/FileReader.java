@@ -299,7 +299,7 @@ public class FileReader {
 		System.out.println(e.counters.toString());
 		
 		//Test Rule + Feature_Envy
-		//Correct answer: DCI = 0; DII = 0; ADCI = 306; ADII = 114;
+		//Correct answer: DCI = 4; DII = 0; ADCI = 306; ADII = 114;
 		System.out.println("TESTE RULE AND FEATURE ENVY");
 		String test2 = "ATFD;>;50;AND;LAA;>;0";
 		e.ruleFeatureEnvyDefects(test2);
