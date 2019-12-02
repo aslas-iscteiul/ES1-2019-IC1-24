@@ -444,8 +444,8 @@ public class GUI extends Observable {
 						try {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
-									+ comboBox_1.getSelectedItem().toString() + ";"
+							currentRule = "ATFD;"+ comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
+									+ comboBox_1.getSelectedItem().toString() + ";LAA"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
@@ -541,8 +541,8 @@ public class GUI extends Observable {
 						try {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
-									+ comboBox_1.getSelectedItem().toString() + ";"
+							currentRule = "LOC;"+comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
+									+ comboBox_1.getSelectedItem().toString() + ";CYCLO"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
