@@ -78,17 +78,11 @@ public class GUI extends Observable {
 	private DefaultListModel<Integer> idsListModel;
 	private JList<Integer> idsList;
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public GUI(Application app) {
 		INSTANCE = this;
 		this.app = app;
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void init() {
 		frame = new JFrame("BugBuster");
 		frame.setBackground(new Color(240, 240, 240));
@@ -96,7 +90,7 @@ public class GUI extends Observable {
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setBounds(50, 50, 964, 639);
+		frame.setBounds(50, 50, 1008, 643);
 
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -112,27 +106,27 @@ public class GUI extends Observable {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		frame.setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[544.00px][414.00,grow]", "[29px][grow][404px,grow]"));
-
-		import_panel = new JPanel();
-		contentPane.add(import_panel, "cell 0 0 1 2,grow");
-		import_panel.setLayout(null);
-
-		JLabel fileName_lbl = new JLabel("File Name:");
-		fileName_lbl.setBounds(125, 5, 100, 20);
-		import_panel.add(fileName_lbl);
-
-		viewButton = new JButton("View File");
-		viewButton.setBounds(0, 0, 100, 30);
-		import_panel.add(viewButton);
-
-		JLabel lblNameimg = new JLabel("Long-Method.xml");
-		lblNameimg.setBounds(215, 5, 155, 20);
-		import_panel.add(lblNameimg);
+		contentPane.setLayout(new MigLayout("", "[544.00px][414.00,grow]", "[29px][grow][][404px,grow]"));
+		
+				import_panel = new JPanel();
+				contentPane.add(import_panel, "cell 0 0 1 2,grow");
+				import_panel.setLayout(null);
+				
+						JLabel fileName_lbl = new JLabel("File Name:");
+						fileName_lbl.setBounds(125, 5, 100, 20);
+						import_panel.add(fileName_lbl);
+						
+								viewButton = new JButton("View File");
+								viewButton.setBounds(0, 0, 100, 30);
+								import_panel.add(viewButton);
+								
+										JLabel lblNameimg = new JLabel("Long-Method.xml");
+										lblNameimg.setBounds(215, 5, 155, 20);
+										import_panel.add(lblNameimg);
 
 		JPanel rulesPanel = new JPanel();
-		contentPane.add(rulesPanel, "cell 1 0 1 3,grow");
-		rulesPanel.setLayout(new MigLayout("", "[grow]", "[][][][][][][][][][][][grow]"));
+		contentPane.add(rulesPanel, "cell 1 0 1 4,grow");
+		rulesPanel.setLayout(new MigLayout("", "[grow][]", "[][][][][][][][][][][][][grow]"));
 
 		JLabel defectOptionsLabel = new JLabel("Defect Counter Options:");
 		rulesPanel.add(defectOptionsLabel, "cell 0 0");
@@ -189,12 +183,6 @@ public class GUI extends Observable {
 		rulesPanel.add(methodIdsLabel, "cell 0 10");
 
 		idsListModel = new DefaultListModel<Integer>();
-		idsList = new JList<>();
-		idsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		JScrollPane listPanel = new JScrollPane(idsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		idsList.setModel(idsListModel);
-		rulesPanel.add(idsList, "cell 0 11,grow");
 
 		JLabel diiLabel = new JLabel("DII");
 		rulesPanel.add(diiLabel, "cell 0 5,growx");
@@ -219,45 +207,47 @@ public class GUI extends Observable {
 
 		adciValue = new JLabel(" ");
 		panel_3.add(adciValue, "cell 0 0");
+		idsList = new JList<>();
+		idsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		idsList.setModel(idsListModel);
 
-		filePanel = new JPanel();
-		filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View",
-				TitledBorder.CENTER, TitledBorder.TOP, null, null));
-		contentPane.add(filePanel, "cell 0 2,grow");
+		JScrollPane listPanel = new JScrollPane(idsList, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
-		JScrollPane file_scrollPane = new JScrollPane();
+		listPanel.setBounds(15, 28, 514, 365);
 
-		file_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		file_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		file_scrollPane.setBounds(15, 28, 514, 365);
-		filePanel.add(file_scrollPane);
-
-		table_file = new JTable();
-		table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		file_scrollPane.setViewportView(table_file);
+		rulesPanel.add(listPanel, "cell 0 11,grow");
+		
+				filePanel = new JPanel();
+				filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View",
+						TitledBorder.CENTER, TitledBorder.TOP, null, null));
+				contentPane.add(filePanel, "cell 0 2 1 2,grow");
+				
+						JScrollPane file_scrollPane = new JScrollPane();
+						
+								file_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+								file_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+								file_scrollPane.setBounds(15, 28, 514, 365);
+								filePanel.add(file_scrollPane);
+								
+										table_file = new JTable();
+										table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+										file_scrollPane.setViewportView(table_file);
 
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void actions() {
 		viewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-
 					Sheet sheet = INSTANCE.app.getFileReader().getSheet();
 					DefaultTableModel dtm = new DefaultTableModel() {
-
 						@Override
 						public boolean isCellEditable(int row, int column) {
-
 							return false;
 						}
 					};
-					/*
-					 * copy paste of the file
-					 */
+
 					for (int j = 0; j < sheet.getLastRowNum(); j++) {
 						for (int i = 0; i < sheet.getRow(j).getLastCellNum(); i++) {
 							if (j == 0) {
@@ -340,6 +330,14 @@ public class GUI extends Observable {
 							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 
 						}
+						SwingUtilities.invokeLater(new Runnable() {
+
+							@Override
+							public void run() {
+								idsListModel.clear();
+							}
+						});
+
 						toolFrame.dispose();
 
 					}
@@ -349,9 +347,6 @@ public class GUI extends Observable {
 		});
 	}
 
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public void createRuleFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -476,8 +471,9 @@ public class GUI extends Observable {
 									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA;"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
-							
-							List<Integer> auxList = INSTANCE.app.getFileReader().ruleFeatureEnvyDefects(INSTANCE.currentRule);
+
+							List<Integer> auxList = INSTANCE.app.getFileReader()
+									.ruleFeatureEnvyDefects(INSTANCE.currentRule);
 
 							SwingUtilities.invokeLater(new Runnable() {
 
