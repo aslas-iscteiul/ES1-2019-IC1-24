@@ -3,12 +3,9 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 
 import javax.swing.BoxLayout;
@@ -26,12 +23,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
-import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.FormLayout;
@@ -41,9 +41,6 @@ import com.jgoodies.forms.layout.RowSpec;
 import app_structure.Application;
 import app_structure.FileReader;
 import net.miginfocom.swing.MigLayout;
-import java.awt.Toolkit;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class GUI extends Observable {
 
@@ -118,9 +115,9 @@ public class GUI extends Observable {
 		viewButton.setBounds(0, 0, 100, 30);
 		import_panel.add(viewButton);
 
-		JLabel lblNomeimg = new JLabel("Long-Method.xml");
-		lblNomeimg.setBounds(215, 5, 155, 20);
-		import_panel.add(lblNomeimg);
+		JLabel lblNameimg = new JLabel("Long-Method.xml");
+		lblNameimg.setBounds(215, 5, 155, 20);
+		import_panel.add(lblNameimg);
 
 		JPanel rulesPanel = new JPanel();
 		contentPane.add(rulesPanel, "cell 1 0 1 3,grow");
@@ -215,18 +212,25 @@ public class GUI extends Observable {
 
 		JScrollPane file_scrollPane = new JScrollPane();
 
+		file_scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+		file_scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		file_scrollPane.setBounds(15, 28, 514, 365);
+		filePanel.add(file_scrollPane);
+
 		table_file = new JTable();
+		table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		file_scrollPane.setViewportView(table_file);
-		GroupLayout gl_filePanel = new GroupLayout(filePanel);
-		gl_filePanel.setHorizontalGroup(
-			gl_filePanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
-		);
-		gl_filePanel.setVerticalGroup(
-			gl_filePanel.createParallelGroup(Alignment.LEADING)
-				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
-		);
-		filePanel.setLayout(gl_filePanel);
+		
+//		GroupLayout gl_filePanel = new GroupLayout(filePanel);
+//		gl_filePanel.setHorizontalGroup(
+//			gl_filePanel.createParallelGroup(Alignment.LEADING)
+//				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
+//		);
+//		gl_filePanel.setVerticalGroup(
+//			gl_filePanel.createParallelGroup(Alignment.LEADING)
+//				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
+//		);
+//		filePanel.setLayout(gl_filePanel);
 
 	}
 
@@ -234,27 +238,30 @@ public class GUI extends Observable {
 		viewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					// CAT METE O CODIGO AQUI
-					List<Object[]> allCells = new ArrayList<>();
-					/* allCells = INSTANCE.app.getFileReader() */
-					DefaultTableModel dtm = new DefaultTableModel();
-					dtm.addColumn("MethodID");
-					dtm.addColumn("package");
-					dtm.addColumn("class");
-					dtm.addColumn("method");
-					dtm.addColumn("LOC");
-					dtm.addColumn("CYCLO");
-					dtm.addColumn("ATFD");
-					dtm.addColumn("LAA");
-					dtm.addColumn("is_long_method");
-					dtm.addColumn("iPlasma");
-					dtm.addColumn("PMD");
-					dtm.addColumn("is_feature_envy");
+					
+					Sheet sheet=INSTANCE.app.getFileReader().getSheet();
+					DefaultTableModel dtm = new DefaultTableModel() {
 
-					for (Object[] row : allCells) {
-						dtm.addRow(row);
-					}
-
+					    @Override
+					    public boolean isCellEditable(int row, int column) {
+					
+					       return false;
+					    }
+					};
+					/*
+					 * copy paste of the file
+					 */
+					for(int j=0;j<sheet.getLastRowNum();j++) {
+						for(int i=0;i<sheet.getRow(j).getLastCellNum();i++) {
+							if(j==0) {
+								dtm.addColumn(sheet.getRow(j).getCell(i));
+							}
+							else {
+								Row row=sheet.getRow(j);
+								dtm.addRow(INSTANCE.app.getFileReader().printRowValue(row));
+							}	
+						}	
+					}				
 					table_file.setModel(dtm);
 
 				} catch (Exception e2) {

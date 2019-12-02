@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -244,8 +245,23 @@ public class FileReader {
 		}
 		return ids;
 	}
+//	metodos para a gui
+	public Sheet getSheet() {
+		return sheet;
+	}
 	
-	
+	public Object[] printRowValue(Row row) {
+		Object[] rowValues = new String[row.getLastCellNum()];
+		Iterator<Cell> cellIterator = row.cellIterator();
+		int i=0;
+		while (cellIterator.hasNext()) {
+			Cell cell = cellIterator.next();
+			rowValues[i] = cell.toString();
+			i++;
+		}
+		return rowValues;
+		
+	}
 	
 	
 	//FOR TEST
@@ -287,5 +303,6 @@ public class FileReader {
 		System.out.println(e.counters.toString());
 
 	}
+
 }
 
