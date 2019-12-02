@@ -73,9 +73,6 @@ public class GUI extends Observable {
 	public GUI(Application app) {
 		INSTANCE = this;
 		this.app = app;
-		init();
-		actions();
-
 	}
 
 	public void init() {
@@ -463,7 +460,7 @@ public class GUI extends Observable {
 
 							featEnvyFrame.dispose();
 						} catch (NumberFormatException nfe) {
-							JOptionPane.showMessageDialog(null, "Só aceito números!");
+							JOptionPane.showMessageDialog(null, "Only numberss!");
 							textField.setText("");
 							textField_1.setText("");
 						}
@@ -560,7 +557,7 @@ public class GUI extends Observable {
 
 							longMethodFrame.dispose();
 						} catch (NumberFormatException nfe) {
-							JOptionPane.showMessageDialog(null, "Só aceito números!");
+							JOptionPane.showMessageDialog(null, "Only numberss!");
 							textField.setText("");
 							textField_1.setText("");
 						}
@@ -577,24 +574,34 @@ public class GUI extends Observable {
 			}
 		});
 	}
-
-	public static void main(String[] args) {
-		try {
+	
+	public static void createAndShowGUI() {
+        INSTANCE.init();
+        INSTANCE.actions();
+        
+        try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FileReader fr = new FileReader();
-					Application app = new Application(INSTANCE, fr);
-					GUI gui = new GUI(app);
+    }
 
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		try {
+//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//		} catch (Throwable e) {
+//			e.printStackTrace();
+//		}
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					FileReader fr = new FileReader();
+//					Application app = new Application(fr);
+//
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 }
