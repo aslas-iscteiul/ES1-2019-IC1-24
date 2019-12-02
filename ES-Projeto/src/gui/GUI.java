@@ -66,6 +66,13 @@ public class GUI extends Observable {
 
 	private String currentRuleOption;
 	private String currentRule;
+	
+	JLabel dciValue;
+	JLabel diiValue;
+	JLabel adciValue;
+	JLabel adiiValue;
+
+	
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -75,6 +82,9 @@ public class GUI extends Observable {
 		this.app = app;
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void init() {
 		frame = new JFrame("BugBuster");
 		frame.setBackground(new Color(240, 240, 240));
@@ -156,8 +166,8 @@ public class GUI extends Observable {
 		rulesPanel.add(panel, "flowx,cell 0 6,grow");
 		panel.setLayout(new MigLayout("", "[grow]", "[]"));
 
-		JLabel lblNewLabel = new JLabel("...");
-		panel.add(lblNewLabel, "cell 0 0");
+		dciValue = new JLabel(" ");
+		panel.add(dciValue, "cell 0 0");
 
 		JLabel adiiLabel_1 = new JLabel("ADII");
 		rulesPanel.add(adiiLabel_1, "flowx,cell 0 7,growx");
@@ -168,8 +178,8 @@ public class GUI extends Observable {
 		rulesPanel.add(panel_2, "flowx,cell 0 8,grow");
 		panel_2.setLayout(new MigLayout("", "[grow]", "[]"));
 
-		JLabel lblNewLabel_2 = new JLabel("...");
-		panel_2.add(lblNewLabel_2, "cell 0 0");
+		adiiValue = new JLabel(" ");
+		panel_2.add(adiiValue, "cell 0 0");
 
 		JLabel methodIdsLabel = new JLabel("Method IDs:");
 		rulesPanel.add(methodIdsLabel, "cell 0 10");
@@ -190,8 +200,8 @@ public class GUI extends Observable {
 		rulesPanel.add(panel_1, "cell 0 6,grow");
 		panel_1.setLayout(new MigLayout("", "[grow]", "[]"));
 
-		JLabel lblNewLabel_1 = new JLabel("...");
-		panel_1.add(lblNewLabel_1, "cell 0 0");
+		diiValue = new JLabel(" ");
+		panel_1.add(diiValue, "cell 0 0");
 
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
@@ -199,8 +209,8 @@ public class GUI extends Observable {
 		rulesPanel.add(panel_3, "cell 0 8,grow");
 		panel_3.setLayout(new MigLayout("", "[grow]", "[]"));
 
-		JLabel lblNewLabel_3 = new JLabel("...");
-		panel_3.add(lblNewLabel_3, "cell 0 0");
+		JLabel adciValue = new JLabel(" ");
+		panel_3.add(adciValue, "cell 0 0");
 
 		filePanel = new JPanel();
 		filePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "File View",
@@ -217,7 +227,7 @@ public class GUI extends Observable {
 		table_file = new JTable();
 		table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		file_scrollPane.setViewportView(table_file);
-		
+
 //		GroupLayout gl_filePanel = new GroupLayout(filePanel);
 //		gl_filePanel.setHorizontalGroup(
 //			gl_filePanel.createParallelGroup(Alignment.LEADING)
@@ -231,34 +241,36 @@ public class GUI extends Observable {
 
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void actions() {
 		viewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					
-					Sheet sheet=INSTANCE.app.getFileReader().getSheet();
+
+					Sheet sheet = INSTANCE.app.getFileReader().getSheet();
 					DefaultTableModel dtm = new DefaultTableModel() {
 
-					    @Override
-					    public boolean isCellEditable(int row, int column) {
-					
-					       return false;
-					    }
+						@Override
+						public boolean isCellEditable(int row, int column) {
+
+							return false;
+						}
 					};
 					/*
 					 * copy paste of the file
 					 */
-					for(int j=0;j<sheet.getLastRowNum();j++) {
-						for(int i=0;i<sheet.getRow(j).getLastCellNum();i++) {
-							if(j==0) {
+					for (int j = 0; j < sheet.getLastRowNum(); j++) {
+						for (int i = 0; i < sheet.getRow(j).getLastCellNum(); i++) {
+							if (j == 0) {
 								dtm.addColumn(sheet.getRow(j).getCell(i));
-							}
-							else {
-								Row row=sheet.getRow(j);
+							} else {
+								Row row = sheet.getRow(j);
 								dtm.addRow(INSTANCE.app.getFileReader().printRowValue(row));
-							}	
-						}	
-					}				
+							}
+						}
+					}
 					table_file.setModel(dtm);
 
 				} catch (Exception e2) {
@@ -294,7 +306,7 @@ public class GUI extends Observable {
 				panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 				panel.setOpaque(true);
 
-				String[] toolOptions = { "PMI", "iPlasma" };
+				String[] toolOptions = { "PMD", "iPlasma" };
 				JComboBox<String> toolCombo = new JComboBox(toolOptions);
 
 				JButton applyButton = new JButton("Apply");
@@ -316,8 +328,15 @@ public class GUI extends Observable {
 						// MÉTODO PARA MOSTRAR OS DEFEITOS COM A AJUDA DA SOFIA/TONI
 						if (INSTANCE.currentTool.equals("iPlasma")) {
 							currentRuleLabelDisplay.setText("iPlasma");
+							INSTANCE.currentTool = "iPlasma";
 						} else {
-							currentRuleLabelDisplay.setText("PMI");
+							currentRuleLabelDisplay.setText("PMD");
+							INSTANCE.currentTool = "PMD";
+							INSTANCE.app.getFileReader().pmdLongMethodDefects();
+							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 						}
 
 						toolFrame.dispose();
@@ -328,6 +347,9 @@ public class GUI extends Observable {
 		});
 	}
 
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public void createRuleFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -448,8 +470,8 @@ public class GUI extends Observable {
 						try {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = "ATFD;"+ comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
-									+ comboBox_1.getSelectedItem().toString() + ";LAA"
+							currentRule = "ATFD;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
+									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
@@ -545,8 +567,8 @@ public class GUI extends Observable {
 						try {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
-							currentRule = "LOC;"+comboBox.getSelectedItem().toString() + ";" + textField.getText() + ";"
-									+ comboBox_1.getSelectedItem().toString() + ";CYCLO"
+							currentRule = "LOC;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
+									+ ";" + comboBox_1.getSelectedItem().toString() + ";CYCLO"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
@@ -574,34 +596,19 @@ public class GUI extends Observable {
 			}
 		});
 	}
-	
+
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static void createAndShowGUI() {
-        INSTANCE.init();
-        INSTANCE.actions();
-        
-        try {
+		INSTANCE.init();
+		INSTANCE.actions();
+
+		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
-    }
+	}
 
-//	public static void main(String[] args) {
-//		try {
-//			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//		} catch (Throwable e) {
-//			e.printStackTrace();
-//		}
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					FileReader fr = new FileReader();
-//					Application app = new Application(fr);
-//
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
 }

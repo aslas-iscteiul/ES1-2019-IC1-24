@@ -46,6 +46,10 @@ public class FileReader {
 
 		this.counters = new CountersSystem();
 	}
+	
+	public CountersSystem getCounterSystem() {
+		return this.counters;
+	}
 
 	/**
 	 * Prints all file.
