@@ -209,7 +209,7 @@ public class GUI extends Observable {
 		rulesPanel.add(panel_3, "cell 0 8,grow");
 		panel_3.setLayout(new MigLayout("", "[grow]", "[]"));
 
-		JLabel adciValue = new JLabel(" ");
+		adciValue = new JLabel(" ");
 		panel_3.add(adciValue, "cell 0 0");
 
 		filePanel = new JPanel();
@@ -325,21 +325,26 @@ public class GUI extends Observable {
 				applyButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						INSTANCE.currentTool = toolCombo.getSelectedItem().toString();
-						// MÉTODO PARA MOSTRAR OS DEFEITOS COM A AJUDA DA SOFIA/TONI
+						
 						if (INSTANCE.currentTool.equals("iPlasma")) {
 							currentRuleLabelDisplay.setText("iPlasma");
-							INSTANCE.currentTool = "iPlasma";
+							INSTANCE.app.getFileReader().iPlasmaLongMethodDefects();
+							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+
 						} else {
 							currentRuleLabelDisplay.setText("PMD");
-							INSTANCE.currentTool = "PMD";
 							INSTANCE.app.getFileReader().pmdLongMethodDefects();
 							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
 							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
 							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
 							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-						}
 
+						}
 						toolFrame.dispose();
+
 					}
 				});
 
@@ -474,12 +479,19 @@ public class GUI extends Observable {
 									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
+							//returns a list that we must update on the jList 
+							//INSTANCE.app.getFileReader().ruleFeatureEnvyDefects(INSTANCE.currentRule);
 
 							currentRuleLabelDisplay.setText("is_feature_envy = IF ( ATFD "
 									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
 									+ comboBox_1.getSelectedItem().toString() + " LAA "
 									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
 
+							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+							
 							featEnvyFrame.dispose();
 						} catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(null, "Only numberss!");
@@ -572,11 +584,19 @@ public class GUI extends Observable {
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
+							//returns a list that we must update on the jList 
+							//INSTANCE.app.getFileReader().ruleLongMethodDefects(INSTANCE.currentRule);
+							
 							currentRuleLabelDisplay.setText("is_long_method = IF ( LOC "
 									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
 									+ comboBox_1.getSelectedItem().toString() + " CYCLO "
 									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
 
+							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+							
 							longMethodFrame.dispose();
 						} catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(null, "Only numberss!");
