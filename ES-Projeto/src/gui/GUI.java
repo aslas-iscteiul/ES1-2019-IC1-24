@@ -6,10 +6,12 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import java.util.Observable;
 
 import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
@@ -24,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -66,13 +69,14 @@ public class GUI extends Observable {
 
 	private String currentRuleOption;
 	private String currentRule;
-	
-	JLabel dciValue;
-	JLabel diiValue;
-	JLabel adciValue;
-	JLabel adiiValue;
 
-	
+	private JLabel dciValue;
+	private JLabel diiValue;
+	private JLabel adciValue;
+	private JLabel adiiValue;
+
+	private DefaultListModel<Integer> idsListModel;
+	private JList<Integer> idsList;
 
 	/**
 	 * @wbp.parser.entryPoint
@@ -184,8 +188,12 @@ public class GUI extends Observable {
 		JLabel methodIdsLabel = new JLabel("Method IDs:");
 		rulesPanel.add(methodIdsLabel, "cell 0 10");
 
-		JList idsList = new JList();
+		idsListModel = new DefaultListModel<Integer>();
+		idsList = new JList<>();
 		idsList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		JScrollPane listPanel = new JScrollPane(idsList, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		idsList.setModel(idsListModel);
 		rulesPanel.add(idsList, "cell 0 11,grow");
 
 		JLabel diiLabel = new JLabel("DII");
@@ -227,17 +235,6 @@ public class GUI extends Observable {
 		table_file = new JTable();
 		table_file.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		file_scrollPane.setViewportView(table_file);
-
-//		GroupLayout gl_filePanel = new GroupLayout(filePanel);
-//		gl_filePanel.setHorizontalGroup(
-//			gl_filePanel.createParallelGroup(Alignment.LEADING)
-//				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 530, GroupLayout.PREFERRED_SIZE)
-//		);
-//		gl_filePanel.setVerticalGroup(
-//			gl_filePanel.createParallelGroup(Alignment.LEADING)
-//				.addComponent(file_scrollPane, GroupLayout.PREFERRED_SIZE, 380, GroupLayout.PREFERRED_SIZE)
-//		);
-//		filePanel.setLayout(gl_filePanel);
 
 	}
 
@@ -325,22 +322,22 @@ public class GUI extends Observable {
 				applyButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						INSTANCE.currentTool = toolCombo.getSelectedItem().toString();
-						
+
 						if (INSTANCE.currentTool.equals("iPlasma")) {
 							currentRuleLabelDisplay.setText("iPlasma");
 							INSTANCE.app.getFileReader().iPlasmaLongMethodDefects();
-							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 
 						} else {
 							currentRuleLabelDisplay.setText("PMD");
 							INSTANCE.app.getFileReader().pmdLongMethodDefects();
-							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 
 						}
 						toolFrame.dispose();
@@ -476,22 +473,34 @@ public class GUI extends Observable {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
 							currentRule = "ATFD;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
-									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA"
+									+ ";" + comboBox_1.getSelectedItem().toString() + ";LAA;"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
-							//returns a list that we must update on the jList 
-							//INSTANCE.app.getFileReader().ruleFeatureEnvyDefects(INSTANCE.currentRule);
+							
+							List<Integer> auxList = INSTANCE.app.getFileReader().ruleFeatureEnvyDefects(INSTANCE.currentRule);
+
+							SwingUtilities.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									idsListModel.clear();
+									for (Integer i : auxList) {
+										idsListModel.addElement(i);
+									}
+
+								}
+							});
 
 							currentRuleLabelDisplay.setText("is_feature_envy = IF ( ATFD "
 									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
 									+ comboBox_1.getSelectedItem().toString() + " LAA "
 									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
 
-							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-							
+							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+
 							featEnvyFrame.dispose();
 						} catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(null, "Only numberss!");
@@ -580,23 +589,35 @@ public class GUI extends Observable {
 							int i_txtfield = Integer.parseInt(textField.getText());
 							int i_txtfield1 = Integer.parseInt(textField_1.getText());
 							currentRule = "LOC;" + comboBox.getSelectedItem().toString() + ";" + textField.getText()
-									+ ";" + comboBox_1.getSelectedItem().toString() + ";CYCLO"
+									+ ";" + comboBox_1.getSelectedItem().toString() + ";CYCLO;"
 									+ comboBox_2.getSelectedItem().toString() + ";" + textField_1.getText();
 							System.out.println(currentRule);
 
-							//returns a list that we must update on the jList 
-							//INSTANCE.app.getFileReader().ruleLongMethodDefects(INSTANCE.currentRule);
-							
+							List<Integer> auxList = INSTANCE.app.getFileReader()
+									.ruleLongMethodDefects(INSTANCE.currentRule);
+
+							SwingUtilities.invokeLater(new Runnable() {
+
+								@Override
+								public void run() {
+									idsListModel.clear();
+									for (Integer i : auxList) {
+										idsListModel.addElement(i);
+									}
+
+								}
+							});
+
 							currentRuleLabelDisplay.setText("is_long_method = IF ( LOC "
 									+ comboBox.getSelectedItem().toString() + " " + textField.getText() + " "
 									+ comboBox_1.getSelectedItem().toString() + " CYCLO "
 									+ comboBox_2.getSelectedItem().toString() + " " + textField_1.getText() + " )");
 
-							INSTANCE.diiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDII());
-							INSTANCE.dciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getDCI());
-							INSTANCE.adiiValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADII());
-							INSTANCE.adciValue.setText(""+INSTANCE.app.getFileReader().getCounterSystem().getADCI());
-							
+							INSTANCE.diiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDII());
+							INSTANCE.dciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getDCI());
+							INSTANCE.adiiValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADII());
+							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
+
 							longMethodFrame.dispose();
 						} catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(null, "Only numberss!");
