@@ -77,6 +77,8 @@ public class GUI extends Observable {
 	private DefaultListModel<Integer> idsListModel;
 	private JList<Integer> idsList;
 
+	private Boolean anotherWindowOpen;
+
 	public GUI(Application app) {
 		INSTANCE = this;
 		this.app = app;
@@ -268,11 +270,16 @@ public class GUI extends Observable {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Tool") {
+				if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Tool"
+						&& INSTANCE.anotherWindowOpen == false) {
 					INSTANCE.createToolFrame();
-				} else if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Rule") {
+				} else if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Rule"
+						&& INSTANCE.anotherWindowOpen == false) {
 					INSTANCE.createRuleFrame();
+				} else if (INSTANCE.anotherWindowOpen == true) {
+					JOptionPane.showMessageDialog(null, "Only one rule/tool at the same time");
 				}
+				INSTANCE.anotherWindowOpen = true;
 			}
 		});
 
@@ -283,7 +290,7 @@ public class GUI extends Observable {
 			@Override
 			public void run() {
 				JFrame toolFrame = new JFrame("Choose a tool");
-				toolFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				// toolFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				} catch (Exception e) {
@@ -332,8 +339,20 @@ public class GUI extends Observable {
 						});
 
 						toolFrame.dispose();
+						INSTANCE.anotherWindowOpen = false;
 					}
 				});
+
+				toolFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				toolFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent e) {
+						e.getWindow().dispose();
+						INSTANCE.anotherWindowOpen = false;
+						System.out.println("Tool Frame Closed!");
+					}
+				});
+
 			}
 		});
 	}
@@ -343,7 +362,7 @@ public class GUI extends Observable {
 			@Override
 			public void run() {
 				JFrame ruleFrame = new JFrame("Choose a rule");
-				ruleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+				// ruleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				ruleFrame.setBounds(100, 100, 408, 136);
 				try {
 					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -385,6 +404,16 @@ public class GUI extends Observable {
 					}
 				});
 
+				ruleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				ruleFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent e) {
+						e.getWindow().dispose();
+						INSTANCE.anotherWindowOpen = false;
+						System.out.println("Rule Frame Closed!");
+					}
+				});
+
 			}
 		});
 	}
@@ -416,7 +445,7 @@ public class GUI extends Observable {
 				contentPane.add(panel, "cell 0 1,grow");
 				panel.setLayout(new MigLayout("", "[][grow][grow][grow][][grow][grow][]", "[]"));
 
-				//which columns to consider
+				// which columns to consider
 				JLabel firstColumn;
 				JLabel secondColumn;
 
@@ -458,6 +487,12 @@ public class GUI extends Observable {
 				JButton applyButton = new JButton("Apply");
 				contentPane.add(applyButton, "cell 1 1");
 
+				ruleFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
+				ruleFrame.pack();
+				ruleFrame.setLocationByPlatform(true);
+				ruleFrame.setVisible(true);
+				ruleFrame.setResizable(false);
+
 				applyButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 
@@ -490,9 +525,10 @@ public class GUI extends Observable {
 										+ comboBox3.getSelectedItem().toString() + " " + secondNumber.getText() + " )");
 
 							} else {
-								currentRule = "LOC;" + comboBox1.getSelectedItem().toString() + ";" + firstNumber.getText()
-										+ ";" + comboBox2.getSelectedItem().toString() + ";CYCLO;"
-										+ comboBox3.getSelectedItem().toString() + ";" + secondNumber.getText();
+								currentRule = "LOC;" + comboBox1.getSelectedItem().toString() + ";"
+										+ firstNumber.getText() + ";" + comboBox2.getSelectedItem().toString()
+										+ ";CYCLO;" + comboBox3.getSelectedItem().toString() + ";"
+										+ secondNumber.getText();
 
 								auxList = INSTANCE.app.getFileReader().ruleLongMethodDefects(INSTANCE.currentRule);
 
@@ -521,6 +557,7 @@ public class GUI extends Observable {
 							INSTANCE.adciValue.setText("" + INSTANCE.app.getFileReader().getCounterSystem().getADCI());
 
 							ruleFrame.dispose();
+							INSTANCE.anotherWindowOpen = false;
 
 						} catch (NumberFormatException nfe) {
 							JOptionPane.showMessageDialog(null, "Only numbers!");
@@ -530,11 +567,15 @@ public class GUI extends Observable {
 					}
 				});
 
-				ruleFrame.getContentPane().add(BorderLayout.CENTER, contentPane);
-				ruleFrame.pack();
-				ruleFrame.setLocationByPlatform(true);
-				ruleFrame.setVisible(true);
-				ruleFrame.setResizable(false);
+				ruleFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				ruleFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent e) {
+						e.getWindow().dispose();
+						INSTANCE.anotherWindowOpen = false;
+						System.out.println("Specific Rule Frame Closed!");
+					}
+				});
 
 			}
 		});
@@ -546,6 +587,7 @@ public class GUI extends Observable {
 	public static void createAndShowGUI() {
 		INSTANCE.init();
 		INSTANCE.actions();
+		INSTANCE.anotherWindowOpen = false;
 
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
