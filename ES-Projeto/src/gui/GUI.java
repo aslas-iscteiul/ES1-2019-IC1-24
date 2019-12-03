@@ -137,7 +137,7 @@ public class GUI extends Observable {
 		tooOrRuleComboBox.setModel(new DefaultComboBoxModel(new String[] { "Tool", "Rule" }));
 		rulesPanel.add(tooOrRuleComboBox, "flowx,cell 0 1,growx");
 
-		okButton = new JButton("Ok");
+		okButton = new JButton("Apply");
 
 		rulesPanel.add(okButton, "cell 0 1,growx");
 
