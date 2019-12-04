@@ -15,19 +15,13 @@ public class Application {
 	public Application(FileReader fr) {
 		this.gui = new GUI(this);
 		this.fr = fr;
-	}
+	} 
 
 	public FileReader getFileReader() {
 		return this.fr;
 	}
-	
-	
-	// process rule - envolve receber a string e processa-la
 
-	
 	Application() throws MalformedURLException {
-		String[] args = { "ggg", "vvv" };
-
 		gui.createAndShowGUI();
 	}
 
@@ -44,7 +38,4 @@ public class Application {
 			}
 		});
 	}
-	
-	
-
 }

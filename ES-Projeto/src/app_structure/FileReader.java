@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Vector;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -19,7 +18,6 @@ public class FileReader {
 	private static final String PATH = "Long-Method.xlsx";
 	private static final String TITLE = "Long-Method";
 
-	private static final int ID = 0;
 	private static final int LOC = 4;
 	private static final int CYCLO = 5;
 	private static final int ATFD = 6;
@@ -201,8 +199,8 @@ public class FileReader {
 			boolean ruleResult =  isDefect(rule, loc, cyclo);
 			if(row.getRowNum() != 0)
 				this.counters.increment(long_method, ruleResult);
-			if(ruleResult) 						
-				ids.add(row.getRowNum());							//Lista de ids para enviar para a GUI
+			if(ruleResult && row.getRowNum() != 0) 						
+				ids.add(row.getRowNum()+1);							//+1 because getRowNum is 0 based
 		}
 		return ids;
 	}
@@ -243,8 +241,8 @@ public class FileReader {
 			boolean ruleResult = isDefect(rule, atfd, laa);
 			if(row.getRowNum() != 0)
 				this.counters.increment(feature_envy, ruleResult);
-			if(ruleResult) 						
-				ids.add(row.getRowNum());							//Lista de ids para enviar para a GUI
+			if(ruleResult && row.getRowNum() != 0) 						
+				ids.add(row.getRowNum()+1);							//+1 because getRowNum is 0 based
 		}
 		return ids;
 	}
@@ -272,7 +270,7 @@ public class FileReader {
 		FileReader e = new FileReader();
 
 		//Prints all file test
-		  e.printAllFile();
+		//e.printAllFile();
 
 		
 		//LongMethod: 140 (V) ; 280 (F)
@@ -292,11 +290,12 @@ public class FileReader {
 		System.out.println(e.counters.toString());
 
 		//Test Rule + LongMethod
-		//Correct answer: DCI = 5; DII = 0; ADCI = 306; ADII = 135;
+		//Correct answer: DCI = 5; DII = 0; ADCI = 280; ADII = 135;
 		System.out.println("TESTE RULE AND LONG METHOD");
 		String test = "LOC;>;200;AND;CYCLO;>;100";
 		e.ruleLongMethodDefects(test);
 		System.out.println(e.counters.toString());
+		System.out.println(e.ruleLongMethodDefects(test).toString());
 		
 		//Test Rule + Feature_Envy
 		//Correct answer: DCI = 4; DII = 0; ADCI = 306; ADII = 114;
@@ -304,7 +303,7 @@ public class FileReader {
 		String test2 = "ATFD;>;50;AND;LAA;>;0";
 		e.ruleFeatureEnvyDefects(test2);
 		System.out.println(e.counters.toString());
-
+		System.out.println(e.ruleFeatureEnvyDefects(test2).toString());
 	}
 
 }
