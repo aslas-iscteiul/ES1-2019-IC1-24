@@ -45,6 +45,16 @@ import com.jgoodies.forms.layout.RowSpec;
 import app_structure.Application;
 import net.miginfocom.swing.MigLayout;
 
+/**
+ * 
+ * @author anabela, catarina a.
+ * 
+ * GUI class is used by the Application class to quick start the user's view of the app.
+ * GUI only requires an Application so it can associate itself and later call methods from that class.
+ * This class is observable aNd will update itself whenever the user implements different tools/rules.
+ *  
+ */
+
 public class GUI extends Observable {
 
 	private static GUI INSTANCE;
@@ -85,6 +95,16 @@ public class GUI extends Observable {
 		this.app = app;
 	}
 
+	/**
+	 * 	Init will create the JFrame that will appear to the user. 
+	 * 	It includes: a menu bar; a panel for the user to click and view the file in another panel, in a JTable format; 
+	 * 	a panel where the user chooses either a tool or rule and later on shows the defects that were counted in separate 
+	 * 	labels, according to their nature (if the metric chosen is a rule it will also show the method ids that showed 
+	 * 	conflict).   
+	 * 
+	 * 	@param 
+	 */
+	
 	public void init() {
 		// Frame setup
 		frame = new JFrame("BeQoS");
@@ -272,6 +292,17 @@ public class GUI extends Observable {
 		file_scrollPane.setViewportView(table_file);
 
 	}
+	
+	/**
+	 * 	Actions adds the actionListeners to the components of the JFrame, when needed. 
+	 * 	The buttons 'View File' and 'Apply' prompt action from the application. 
+	 * 	The listener of the View button responds by getting the Excel sheet from the FileReader on the Application
+	 * 	and then placing it on the JTable on the corresponding panel. 
+	 * 	On the other hand, the listener on the Apply button will react depending on which option the user has chosen on 
+	 * 	the comboBox and act upon it by creating another frame. 
+	 * 
+	 * 	@param
+	 */
 
 	public void actions() {
 		viewButton.addActionListener(new ActionListener() {
@@ -319,6 +350,16 @@ public class GUI extends Observable {
 		});
 
 	}
+	
+	/**
+	 * 	CreateToolFrame will open a new JFrame that contains a comboBox and an 'Apply' button.
+	 * 	The option on the comboBox are the two tools the user may use. 
+	 * 	This method also contains the listener to the 'Apply' button, that will close the previously created frame and
+	 * 	tell the application which tool was chosen, so the labels on the main frame will change to the numbers calculated by 
+	 * 	the Application (calling methods on the FileReader and CounterSystem classes).
+	 * 
+	 * 	@param
+	 */
 
 	public void createToolFrame() {
 		EventQueue.invokeLater(new Runnable() {
@@ -392,6 +433,15 @@ public class GUI extends Observable {
 		});
 	}
 
+	/**
+	 * 	CreateRuleFrame will open a new JFrame that contains a comboBox and an 'Apply' button.
+	 * 	The option on the comboBox are the two rules the user may use. 
+	 * 	This method also contains the listener to the 'Apply' button, that will close the previously created frame and
+	 * 	tell the instance which rule was chosen, calling the createSpecificRuleFrame method.  	
+	 * 	
+	 * 	@param
+	 */
+	
 	public void createRuleFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -452,6 +502,20 @@ public class GUI extends Observable {
 			}
 		});
 	}
+	
+	
+	/**
+	 * 	CreateSpecificRuleFrame will open a new JFrame that contains a series of fields that the user 
+	 * 	has to fill, including comboBoxes and textfields. It also has an 'Apply' button.
+	 * 	The Frame created will depend on the parameter passed. It can be one of the following two options:
+	 * 	'Long Method' or 'Feature Envy'. 
+	 * 	This method also contains the listener to the 'Apply' button, that will close this frame and convert the rule created
+	 * 	into a string, that will show up on the main window and will be used to obtain a list of the methods that follow that 
+	 * 	rule. 	
+	 * 	If the user inserts invalid text on the number fields, a warning will be given in the form of a dialog frame.	
+	 * 
+	 * 	@param nameRule - the name of the rule that was chosen by the user on the previous step. 
+	 */	
 
 	public void createSpecificRuleFrame(String nameRule) {
 		EventQueue.invokeLater(new Runnable() {
@@ -617,6 +681,8 @@ public class GUI extends Observable {
 	}
 
 	/**
+	 * 	CreateAndShowGUI serves as an entry point to the Window created, calling the init() and actions() methods.
+	 * 
 	 * @wbp.parser.entryPoint
 	 */
 	public static void createAndShowGUI() {
