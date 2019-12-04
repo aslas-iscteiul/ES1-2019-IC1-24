@@ -73,7 +73,12 @@ class FileReaderTest {
 	 */
 	@Test
 	void testPmdLongMethodDefects() {
-		fail("Not yet implemented"); // TODO
+		f.pmdLongMethodDefects();
+		
+		assertEquals(140, f.getCounterSystem().getDCI());
+		assertEquals(18, f.getCounterSystem().getDII());
+		assertEquals(262, f.getCounterSystem().getADCI());
+		assertEquals(0, f.getCounterSystem().getADII());
 	}
 
 	/**
@@ -107,7 +112,15 @@ class FileReaderTest {
 	 */
 	@Test
 	void testRuleFeatureEnvyDefects() {
-		fail("Not yet implemented"); // TODO
+		String test_rule = "ATFD;>;50;AND;LAA;>;0";
+		f.ruleFeatureEnvyDefects(test_rule);
+		
+		assertEquals(4, f.getCounterSystem().getDCI());
+		assertEquals(0, f.getCounterSystem().getDII());
+		assertEquals(306, f.getCounterSystem().getADCI());
+		assertEquals(110, f.getCounterSystem().getADII());
+		
+		
 	}
 
 	/**
