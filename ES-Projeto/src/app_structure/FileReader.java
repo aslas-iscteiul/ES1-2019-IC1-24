@@ -49,49 +49,49 @@ public class FileReader {
 		return this.counters;
 	}
 
-	/**
-	 * Prints all file.
-	 */
-	public void printAllFile() {
-		Iterator<Row> rowIterator = sheet.iterator();
-		while (rowIterator.hasNext()) {
-			Row row = rowIterator.next();
-			printRowValues(row);
-		}
-	}
-
-	/**
-	 * Prints the specified Row.
-	 * @param row - The Row to be printed.
-	 */
-	public void printRowValues(Row row) {
-		Iterator<Cell> cellIterator = row.cellIterator();
-		while (cellIterator.hasNext()) {
-			Cell cell = cellIterator.next();
-			printCellValue(cell);
-		}
-		System.out.println("\n");
-	}
-
-	/**
-	 * Prints the specified Cell based on cell type.
-	 * @param cell - The Cell to be printed.
-	 */
-	public void printCellValue(Cell cell) {
-		switch (cell.getCellType()) {
-		case NUMERIC: 
-			System.out.print(cell.getNumericCellValue() + "\t");
-			break;
-		case STRING:
-			System.out.print(cell.getStringCellValue() + "\t");
-			break;
-		case BOOLEAN:
-			System.out.print(cell.getBooleanCellValue() + "\t");
-			break;
-		default:
-			break;
-		}
-	}
+//	/**
+//	 * Prints all file.
+//	 */
+//	public void printAllFile() {
+//		Iterator<Row> rowIterator = sheet.iterator();
+//		while (rowIterator.hasNext()) {
+//			Row row = rowIterator.next();
+//			printRowValues(row);
+//		}
+//	}
+//
+//	/**
+//	 * Prints the specified Row.
+//	 * @param row - The Row to be printed.
+//	 */
+//	public void printRowValues(Row row) {
+//		Iterator<Cell> cellIterator = row.cellIterator();
+//		while (cellIterator.hasNext()) {
+//			Cell cell = cellIterator.next();
+//			printCellValue(cell);
+//		}
+//		System.out.println("\n");
+//	}
+//
+//	/**
+//	 * Prints the specified Cell based on cell type.
+//	 * @param cell - The Cell to be printed.
+//	 */
+//	public void printCellValue(Cell cell) {
+//		switch (cell.getCellType()) {
+//		case NUMERIC: 
+//			System.out.print(cell.getNumericCellValue() + "\t");
+//			break;
+//		case STRING:
+//			System.out.print(cell.getStringCellValue() + "\t");
+//			break;
+//		case BOOLEAN:
+//			System.out.print(cell.getBooleanCellValue() + "\t");
+//			break;
+//		default:
+//			break;
+//		}
+//	}
 
 	/**
 	 * Reads all 'Long-Method.xlsx' file by each row and each cell, and increment the counters based 
@@ -265,46 +265,46 @@ public class FileReader {
 	}
 	
 	
-	//FOR TEST
-	public static void main(String[] args) throws IOException {
-		FileReader e = new FileReader();
-
-		//Prints all file test
-		//e.printAllFile();
-
-		
-		//LongMethod: 140 (V) ; 280 (F)
-		//Feature_Envy: 114 (V) ; 306 (F)
-		
-		
-		// Test for iPlasma tool
-		//Correct answer: DCI = 140; DII = 0; ADCI = 280; ADII = 0;  
-		System.out.println("TESTE IPLASMA");
-		e.iPlasmaLongMethodDefects();
-		System.out.println(e.counters.toString());
-				
-		//Test for PMD tool
-		//Correct answer: DCI = 140; DII = 18; ADCI = 262; ADII = 0; 
-		System.out.println("TESTE PMD");
-		e.pmdLongMethodDefects();
-		System.out.println(e.counters.toString());
-
-		//Test Rule + LongMethod
-		//Correct answer: DCI = 5; DII = 0; ADCI = 280; ADII = 135;
-		System.out.println("TESTE RULE AND LONG METHOD");
-		String test = "LOC;>;200;AND;CYCLO;>;100";
-		e.ruleLongMethodDefects(test);
-		System.out.println(e.counters.toString());
-		System.out.println(e.ruleLongMethodDefects(test).toString());
-		
-		//Test Rule + Feature_Envy
-		//Correct answer: DCI = 4; DII = 0; ADCI = 306; ADII = 114;
-		System.out.println("TESTE RULE AND FEATURE ENVY");
-		String test2 = "ATFD;>;50;AND;LAA;>;0";
-		e.ruleFeatureEnvyDefects(test2);
-		System.out.println(e.counters.toString());
-		System.out.println(e.ruleFeatureEnvyDefects(test2).toString());
-	}
+//	//FOR TEST
+//	public static void main(String[] args) throws IOException {
+//		FileReader e = new FileReader();
+//
+//		//Prints all file test
+//		//e.printAllFile();
+//
+//		
+//		//LongMethod: 140 (V) ; 280 (F)
+//		//Feature_Envy: 114 (V) ; 306 (F)
+//		
+//		
+//		// Test for iPlasma tool
+//		//Correct answer: DCI = 140; DII = 0; ADCI = 280; ADII = 0;  
+//		System.out.println("TESTE IPLASMA");
+//		e.iPlasmaLongMethodDefects();
+//		System.out.println(e.counters.toString());
+//				
+//		//Test for PMD tool
+//		//Correct answer: DCI = 140; DII = 18; ADCI = 262; ADII = 0; 
+//		System.out.println("TESTE PMD");
+//		e.pmdLongMethodDefects();
+//		System.out.println(e.counters.toString());
+//
+//		//Test Rule + LongMethod
+//		//Correct answer: DCI = 5; DII = 0; ADCI = 280; ADII = 135;
+//		System.out.println("TESTE RULE AND LONG METHOD");
+//		String test = "LOC;>;200;AND;CYCLO;>;100";
+//		e.ruleLongMethodDefects(test);
+//		System.out.println(e.counters.toString());
+//		System.out.println(e.ruleLongMethodDefects(test).toString());
+//		
+//		//Test Rule + Feature_Envy
+//		//Correct answer: DCI = 4; DII = 0; ADCI = 306; ADII = 114;
+//		System.out.println("TESTE RULE AND FEATURE ENVY");
+//		String test2 = "ATFD;>;50;AND;LAA;>;0";
+//		e.ruleFeatureEnvyDefects(test2);
+//		System.out.println(e.counters.toString());
+//		System.out.println(e.ruleFeatureEnvyDefects(test2).toString());
+//	}
 
 }
 
