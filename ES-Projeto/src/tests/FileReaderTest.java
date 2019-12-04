@@ -120,7 +120,6 @@ class FileReaderTest {
 		assertEquals(306, f.getCounterSystem().getADCI());
 		assertEquals(110, f.getCounterSystem().getADII());
 		
-		
 	}
 
 	/**
