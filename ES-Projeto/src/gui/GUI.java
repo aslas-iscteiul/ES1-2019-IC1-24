@@ -13,18 +13,19 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -99,10 +100,44 @@ public class GUI extends Observable {
 		frame.setJMenuBar(menuBar);
 		JMenu mnHelp = new JMenu("Help");
 		menuBar.add(mnHelp);
-		JCheckBoxMenuItem chckbxmntmUserGuide = new JCheckBoxMenuItem("User Guide");
-		mnHelp.add(chckbxmntmUserGuide);
-		JCheckBoxMenuItem chckbxmntmAboutBugbuster = new JCheckBoxMenuItem("About BeQoS");
-		mnHelp.add(chckbxmntmAboutBugbuster);
+		JMenuItem userGuide = new JMenuItem("User Guide");
+		mnHelp.add(userGuide);
+
+		userGuide.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				JFrame userGuide = new JFrame("User Guide");
+				userGuide.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				userGuide.setBounds(100, 100, 522, 361);
+				JPanel contentPane = new JPanel();
+				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+				userGuide.setContentPane(contentPane);
+				contentPane.setLayout(null);
+				
+				JLabel howToUse = new JLabel("How to use BeQoS:");
+				howToUse.setBounds(5, 5, 418, 20);
+				contentPane.add(howToUse);
+				
+				JTextPane txt = new JTextPane();
+				txt.setEditable(false);
+				txt.setText("BeQoS presents a user-friendly interface that allows the following functionalities:                                        view the original Excel file that contains all the information on the methods and their metrics by clicking the 'View File' ;  choose a \"Tool\" or \"Rule\"  from the combobox and click the 'Apply' button, that redirects the user to other windows. The \"Tool\" option allows the user to choose from PMD or iPlasma, click 'Apply' and the defect numbers will show up on the labels. The \"Rule\" option requires choosing from two rules (Long Method or Feature Envy) and then fill in the blanks to create a rule. By clicking 'Apply' the user will then have the numbers on the labels and the IDs from the methods with defects.");
+				txt.setBounds(15, 34, 470, 255);
+				contentPane.add(txt);
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							userGuide.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			
+		});
+
+		JMenuItem aboutBeQoS = new JMenuItem("About BeQoS");
+		mnHelp.add(aboutBeQoS);
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
