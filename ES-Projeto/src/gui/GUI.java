@@ -86,9 +86,9 @@ public class GUI extends Observable {
 
 	public void init() {
 		// Frame setup
-		frame = new JFrame("Quick");
+		frame = new JFrame("BeQoS");
 		frame.setBackground(new Color(240, 240, 240));
-		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/clock.png")));
+		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/award.png")));
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,7 +101,7 @@ public class GUI extends Observable {
 		menuBar.add(mnHelp);
 		JCheckBoxMenuItem chckbxmntmUserGuide = new JCheckBoxMenuItem("User Guide");
 		mnHelp.add(chckbxmntmUserGuide);
-		JCheckBoxMenuItem chckbxmntmAboutBugbuster = new JCheckBoxMenuItem("About Quick");
+		JCheckBoxMenuItem chckbxmntmAboutBugbuster = new JCheckBoxMenuItem("About BeQoS");
 		mnHelp.add(chckbxmntmAboutBugbuster);
 
 		contentPane = new JPanel();
@@ -595,5 +595,4 @@ public class GUI extends Observable {
 			e.printStackTrace();
 		}
 	}
-
 }
