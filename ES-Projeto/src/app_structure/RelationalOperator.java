@@ -5,10 +5,6 @@ package app_structure;
 
 import java.util.NoSuchElementException;
 
-/**
- * @author ana0s
- *
- */
 public enum RelationalOperator {
 	
 	LESS("<") { 
@@ -48,7 +44,7 @@ public enum RelationalOperator {
     
     public static RelationalOperator parseOperator(String operator) {
         for (RelationalOperator o : values()) {
-            if (o.operator.equals(operator)) 
+            if (o.name().equals(operator)) 
             	return o;
         }
         throw new NoSuchElementException(String.format("Unknown relational operator:", operator));

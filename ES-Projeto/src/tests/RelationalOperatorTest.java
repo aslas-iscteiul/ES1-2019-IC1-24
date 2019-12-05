@@ -55,7 +55,7 @@ class RelationalOperatorTest {
 	 */
 	@Test
 	void testToString() {
-		assertEquals("Operator: " + this.o.name(), this.o.toString());
+		assertEquals("Operator: <", this.o.toString());
 	}
 
 }

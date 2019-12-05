@@ -1,6 +1,3 @@
-/**
- * 
- */
 package app_structure;
 
 import java.util.NoSuchElementException;
@@ -44,14 +41,14 @@ public enum LogicOperator {
     
     /**
      * Returns the enum constant of this type with the specified name.
-     * The string must match exactly an identifier used to declare an enum constant in this type.
+     * The string must match exactly an identifier used to declare an enum constant.
      * @param operator - string name of the enum constant.
      * @return the enum constant with the specified name.
      * @throws NoSuchElementException if this enum type has no constant with the specified name.
      */
     public static LogicOperator parseOperator(String operator) {
         for (LogicOperator o : values()) {
-            if (o.operator.equals(operator)) 
+            if (o.name().equals(operator)) 
             	return o;
         }
         throw new NoSuchElementException(String.format("Unknown logic operator:", operator));
@@ -63,7 +60,7 @@ public enum LogicOperator {
      * Otherwise the result is false.
      * @param left - The boolean left condition.
      * @param right - The boolean right condition.
-     * @return true if the left condition and/or (according to the logic operator) the right condition are true. Otherwise returns false.
+     * @return true if the left condition and/or the right condition are true. Otherwise returns false.
      */
     public abstract boolean apply(boolean left, boolean right);
 }

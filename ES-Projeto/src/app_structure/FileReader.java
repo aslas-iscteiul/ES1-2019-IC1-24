@@ -13,6 +13,11 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+/**
+ * The FileReader class is used by the Application class to access the excel file "Long-Method.xlsx", 
+ * allowing it to be read and evaluated by all methods described in the file, according to specific 
+ * tools and/or rules defined. This valuation is accounted for as a system of counters.
+ */
 public class FileReader {
 
 	private static final String PATH = "Long-Method.xlsx";
@@ -44,54 +49,66 @@ public class FileReader {
 
 		this.counters = new CountersSystem();
 	}
-	
+
+	/**
+	 * Returns the high level representation of the Excel "Long-Method.xlsx" worksheet. 
+	 * @return the representation of the Excel "Long-Method.xlsx" worksheet.
+	 */
+	public Sheet getSheet() {
+		return sheet;
+	}
+
+	/**
+	 * Returns the file reader counters system.
+	 * @return the file reader counters system.
+	 */
 	public CountersSystem getCounterSystem() {
 		return this.counters;
 	}
 
-//	/**
-//	 * Prints all file.
-//	 */
-//	public void printAllFile() {
-//		Iterator<Row> rowIterator = sheet.iterator();
-//		while (rowIterator.hasNext()) {
-//			Row row = rowIterator.next();
-//			printRowValues(row);
-//		}
-//	}
-//
-//	/**
-//	 * Prints the specified Row.
-//	 * @param row - The Row to be printed.
-//	 */
-//	public void printRowValues(Row row) {
-//		Iterator<Cell> cellIterator = row.cellIterator();
-//		while (cellIterator.hasNext()) {
-//			Cell cell = cellIterator.next();
-//			printCellValue(cell);
-//		}
-//		System.out.println("\n");
-//	}
-//
-//	/**
-//	 * Prints the specified Cell based on cell type.
-//	 * @param cell - The Cell to be printed.
-//	 */
-//	public void printCellValue(Cell cell) {
-//		switch (cell.getCellType()) {
-//		case NUMERIC: 
-//			System.out.print(cell.getNumericCellValue() + "\t");
-//			break;
-//		case STRING:
-//			System.out.print(cell.getStringCellValue() + "\t");
-//			break;
-//		case BOOLEAN:
-//			System.out.print(cell.getBooleanCellValue() + "\t");
-//			break;
-//		default:
-//			break;
-//		}
-//	}
+	//	/**
+	//	 * Prints all file.
+	//	 */
+	//	public void printAllFile() {
+	//		Iterator<Row> rowIterator = sheet.iterator();
+	//		while (rowIterator.hasNext()) {
+	//			Row row = rowIterator.next();
+	//			printRowValues(row);
+	//		}
+	//	}
+	//
+	//	/**
+	//	 * Prints the specified Row.
+	//	 * @param row - The Row to be printed.
+	//	 */
+	//	public void printRowValues(Row row) {
+	//		Iterator<Cell> cellIterator = row.cellIterator();
+	//		while (cellIterator.hasNext()) {
+	//			Cell cell = cellIterator.next();
+	//			printCellValue(cell);
+	//		}
+	//		System.out.println("\n");
+	//	}
+	//
+	//	/**
+	//	 * Prints the specified Cell based on cell type.
+	//	 * @param cell - The Cell to be printed.
+	//	 */
+	//	public void printCellValue(Cell cell) {
+	//		switch (cell.getCellType()) {
+	//		case NUMERIC: 
+	//			System.out.print(cell.getNumericCellValue() + "\t");
+	//			break;
+	//		case STRING:
+	//			System.out.print(cell.getStringCellValue() + "\t");
+	//			break;
+	//		case BOOLEAN:
+	//			System.out.print(cell.getBooleanCellValue() + "\t");
+	//			break;
+	//		default:
+	//			break;
+	//		}
+	//	}
 
 	/**
 	 * Reads all 'Long-Method.xlsx' file by each row and each cell, and increment the counters based 
@@ -150,11 +167,11 @@ public class FileReader {
 	}
 
 	/***
-	 * Returns true if the result condition is true. In other words, returns true if ???? 
-	 * @param rule - String rule with values and operators to compare
-	 * @param value1 - First value to compare (LOC or AFTD).
-	 * @param value2 - Second value to compare (CYCLO or LAA).
-	 * @return true if ????? não sei como explicar bahhh
+	 * Returns true if the specified values (value1 and value2) indicate a defect according to the specified rule.
+	 * @param rule - String rule with values and operators to compare.
+	 * @param value1 - First value to compare (can be LOC or AFTD metric).
+	 * @param value2 - Second value to compare (can be CYCLO or LAA metric).
+	 * @return true if the specified values indicate a defect according to the rule.
 	 */
 	private boolean isDefect(String rule, int value1, double value2) {
 		String[] args = rule.split(";");
@@ -203,10 +220,8 @@ public class FileReader {
 				ids.add(row.getRowNum()+1);							//+1 because getRowNum is 0 based
 		}
 		return ids;
-	}
+	}	
 
-	
-	
 	/**
 	 * Reads all 'Long-Method.xlsx' file for each row and cell, and get the ATFD (method accesses to methods of other classes) and LAA (method accesses to attributes of the class itself) 
 	 * metric values from each method (from each row). It is evaluated for each method if it has long method defect. Subsequently, the values 
@@ -246,11 +261,11 @@ public class FileReader {
 		}
 		return ids;
 	}
-//	metodos para a gui
-	public Sheet getSheet() {
-		return sheet;
-	}
-	
+
+	/**
+	 * 
+	 * 
+	 */
 	public Object[] printRowValue(Row row) {
 		Object[] rowValues = new String[row.getLastCellNum()];
 		Iterator<Cell> cellIterator = row.cellIterator();
@@ -261,50 +276,5 @@ public class FileReader {
 			i++;
 		}
 		return rowValues;
-		
 	}
-	
-	
-//	//FOR TEST
-//	public static void main(String[] args) throws IOException {
-//		FileReader e = new FileReader();
-//
-//		//Prints all file test
-//		//e.printAllFile();
-//
-//		
-//		//LongMethod: 140 (V) ; 280 (F)
-//		//Feature_Envy: 114 (V) ; 306 (F)
-//		
-//		
-//		// Test for iPlasma tool
-//		//Correct answer: DCI = 140; DII = 0; ADCI = 280; ADII = 0;  
-//		System.out.println("TESTE IPLASMA");
-//		e.iPlasmaLongMethodDefects();
-//		System.out.println(e.counters.toString());
-//				
-//		//Test for PMD tool
-//		//Correct answer: DCI = 140; DII = 18; ADCI = 262; ADII = 0; 
-//		System.out.println("TESTE PMD");
-//		e.pmdLongMethodDefects();
-//		System.out.println(e.counters.toString());
-//
-//		//Test Rule + LongMethod
-//		//Correct answer: DCI = 5; DII = 0; ADCI = 280; ADII = 135;
-//		System.out.println("TESTE RULE AND LONG METHOD");
-//		String test = "LOC;>;200;AND;CYCLO;>;100";
-//		e.ruleLongMethodDefects(test);
-//		System.out.println(e.counters.toString());
-//		System.out.println(e.ruleLongMethodDefects(test).toString());
-//		
-//		//Test Rule + Feature_Envy
-//		//Correct answer: DCI = 4; DII = 0; ADCI = 306; ADII = 114;
-//		System.out.println("TESTE RULE AND FEATURE ENVY");
-//		String test2 = "ATFD;>;50;AND;LAA;>;0";
-//		e.ruleFeatureEnvyDefects(test2);
-//		System.out.println(e.counters.toString());
-//		System.out.println(e.ruleFeatureEnvyDefects(test2).toString());
-//	}
-
 }
-
