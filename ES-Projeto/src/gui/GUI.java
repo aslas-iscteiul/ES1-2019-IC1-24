@@ -317,13 +317,15 @@ public class GUI extends Observable {
 					};
 
 					for (int j = 0; j < sheet.getLastRowNum(); j++) {
-						for (int i = 0; i < sheet.getRow(j).getLastCellNum(); i++) {
-							if (j == 0) {
+						if (j == 0) {
+							for (int i = 0; i < sheet.getRow(j).getLastCellNum(); i++) {
 								dtm.addColumn(sheet.getRow(j).getCell(i));
-							} else {
-								Row row = sheet.getRow(j);
-								dtm.addRow(INSTANCE.app.getFileReader().printRowValue(row));
 							}
+							
+						} else {
+							Row row = sheet.getRow(j);
+							dtm.addRow(INSTANCE.app.getFileReader().printRowValue(row));
+
 						}
 					}
 					table_file.setModel(dtm);
