@@ -1,0 +1,10 @@
+BeQoS is an app developed within an academic project for Software Engineering. It allows its users to evaluate de quality of some 
+methods, detecting the defects present in the original evaluation of said methods. It does so by showing an interface that 
+gives the user two options for the calculations, either using a tool or a rule. Through a series of queeries, the application knows
+what the final rule is and counts the types of defects (or correct original evaluations) on the Excel file given to us.
+When developing this application we tried our best to be conscious of the user experience and make sure that it would be easy to 
+understand and "user-friendly". 
+
+The BeQoS team,
+
+Ana Sofia, Anabela, António, Catarina A., Catarina T., Gonçalo

@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.Observable;
 
@@ -139,7 +141,7 @@ public class GUI extends Observable {
 				
 				JTextPane txt = new JTextPane();
 				txt.setEditable(false);
-				txt.setText("BeQoS presents a user-friendly interface that allows the following functionalities:                                        view the original Excel file that contains all the information on the methods and their metrics by clicking the 'View File' ;  choose a \"Tool\" or \"Rule\"  from the combobox and click the 'Apply' button, that redirects the user to other windows. The \"Tool\" option allows the user to choose from PMD or iPlasma, click 'Apply' and the defect numbers will show up on the labels. The \"Rule\" option requires choosing from two rules (Long Method or Feature Envy) and then fill in the blanks to create a rule. By clicking 'Apply' the user will then have the numbers on the labels and the IDs from the methods with defects.");
+				txt.setText("BeQoS presents a user-friendly interface that allows the following functionalities: \n View the original Excel file that contains all the information on the methods and their metrics by clicking the 'View File' ;  choose a \"Tool\" or \"Rule\"  from the combobox and click the 'Apply' button, that redirects the user to other windows. The \"Tool\" option allows the user to choose from PMD or iPlasma, click 'Apply' and the defect numbers will show up on the labels. The \"Rule\" option requires choosing from two rules (Long Method or Feature Envy) and then fill in the blanks to create a rule. By clicking 'Apply' the user will then have the numbers on the labels and the IDs from the methods with defects.");
 				txt.setBounds(15, 34, 470, 255);
 				contentPane.add(txt);
 				
@@ -158,6 +160,43 @@ public class GUI extends Observable {
 
 		JMenuItem aboutBeQoS = new JMenuItem("About BeQoS");
 		mnHelp.add(aboutBeQoS);
+		
+		aboutBeQoS.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ev) {
+				JFrame aboutBeQoS = new JFrame("About BeQoS");
+				aboutBeQoS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				aboutBeQoS.setBounds(100, 100, 522, 361);
+				JPanel contentPane = new JPanel();
+				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+				aboutBeQoS.setContentPane(contentPane);
+				contentPane.setLayout(null);
+				
+				JTextPane txt = new JTextPane();
+				txt.setEditable(false);
+				
+				try {
+		            txt.read(new InputStreamReader(
+		                    getClass().getResourceAsStream("/gui/about.txt")),
+		                null);
+		        } catch (IOException e) {
+		            e.printStackTrace();
+		        }
+				txt.setBounds(15, 34, 470, 255);
+				contentPane.add(txt);
+				
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							aboutBeQoS.setVisible(true);
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+			}
+			
+		});
+		
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
