@@ -1,12 +1,14 @@
-/**
- * 
- */
+
 package app_structure;
 
 import java.util.NoSuchElementException;
 
 public enum RelationalOperator {
 	
+	/**
+	 *  Less RelationalOperator (<).
+	 *  Can do apply with int's or double's. 
+	 */
 	LESS("<") { 
 		@Override 
 		public boolean apply(int left, int right) {
@@ -19,6 +21,11 @@ public enum RelationalOperator {
 		}
 	},
 	
+	
+	/**
+	 * More RelationalOperator (>).
+	 *  Can do apply with int's or double's.
+	 */
 	MORE(">") {
 		@Override 
 		public boolean apply(int left, int right) {
@@ -31,17 +38,32 @@ public enum RelationalOperator {
 		}
 	};
 
+	
     private final String operator;
 
+  
+    /**
+     * Sole constructor. Not used by programmers.
+     * @param operator - the name of enum constant.
+     */
     private RelationalOperator(String operator) {
         this.operator = operator;
     }
     
+  
     @Override
     public String toString() {
     	return "Operator: " + this.operator;
     }
     
+    
+    /**
+     * Returns the enum constant of this type with the specified name.
+     * The string must match exactly an identifier used to declare an enum constant.
+     * @param operator - string name of the enum constant.
+     * @return the enum constant with the specified name.
+     * @throws NoSuchElementException if this enum type has no constant with the specified name.
+     */
     public static RelationalOperator parseOperator(String operator) {
         for (RelationalOperator o : values()) {
             if (o.name().equals(operator)) 
@@ -50,6 +72,16 @@ public enum RelationalOperator {
         throw new NoSuchElementException(String.format("Unknown relational operator:", operator));
     }
     
+    
+    /**
+     * Compares two specified boolean conditions. 
+     * The result is true if and only if the left condition </> (according to the relational operator) the right condition are true.
+     * Otherwise the result is false.
+     * @param left - The boolean left condition.
+     * @param right - The boolean right condition.
+     * @return true if the left condition </> the right condition are true. Otherwise returns false.
+     * can do with int's or double's.
+     */
     public abstract boolean apply(int left, int right);
     public abstract boolean apply(double left, double right);
 }
