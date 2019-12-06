@@ -518,7 +518,6 @@ public class GUI extends Observable {
 				// ruleFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				ruleFrame.setBounds(100, 100, 408, 136);
 				try {
-					UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

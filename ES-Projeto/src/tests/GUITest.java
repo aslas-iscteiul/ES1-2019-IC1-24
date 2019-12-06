@@ -82,6 +82,27 @@ class GUITest {
 		assertEquals(140, f.getCounterSystem().getADII());
 		assertEquals(280, f.getCounterSystem().getADCI());
 	}
+	
+	@Test
+	void testRule1_1() {
+		JComboBox<String> cb1 = new JComboBox();
+		cb1.setModel(new DefaultComboBoxModel(new String[] { "Tool", "Rule" }));
+		cb1.setSelectedItem("Rule");
+		g.setToolOrRuleComboBox(cb1);
+		g.setAnotherWindowOpen(true);
+		g.createRuleFrame();
+
+		g.createSpecificRuleFrame("Feature Envy");
+
+		g.setCurrentRule("ATFD;<;28;AND;LAA;<;2");
+
+		f.ruleFeatureEnvyDefects(g.getCurrentRule());
+
+		assertEquals(95, f.getCounterSystem().getDCI());
+		assertEquals(306, f.getCounterSystem().getDII());
+		assertEquals(19, f.getCounterSystem().getADII());
+		assertEquals(0, f.getCounterSystem().getADCI());
+	}
 
 	@Test
 	void testRule2() {
@@ -108,4 +129,7 @@ class GUITest {
 
 		assertEquals(myArray, list);
 	}	
+	
+	
+	
 }
