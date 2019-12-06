@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 
 import org.junit.jupiter.api.AfterAll;
@@ -106,5 +107,5 @@ class GUITest {
 				325, 336, 339, 343, 349, 377, 391, 393, 409);
 
 		assertEquals(myArray, list);
-	}
+	}	
 }

@@ -748,19 +748,7 @@ public class GUI extends Observable {
 			}
 		});
 	}
-
-	public static GUI getINSTANCE() {
-		return INSTANCE;
-	}
-
-	public Boolean getAnotherWindowOpen() {
-		return anotherWindowOpen;
-	}
-
-	public JComboBox gettoolOrRuleComboBox() {
-		return toolOrRuleComboBox;
-	}
-
+	
 	public void setToolOrRuleComboBox(JComboBox toolOrRuleComboBox) {
 		this.toolOrRuleComboBox = toolOrRuleComboBox;
 	}
@@ -771,22 +759,6 @@ public class GUI extends Observable {
 
 	public void setCurrentRule(String currentRule) {
 		this.currentRule = currentRule;
-	}
-
-	public JLabel getDciValue() {
-		return dciValue;
-	}
-
-	public JLabel getDiiValue() {
-		return diiValue;
-	}
-
-	public JLabel getAdciValue() {
-		return adciValue;
-	}
-
-	public JLabel getAdiiValue() {
-		return adiiValue;
 	}
 
 	public void setAnotherWindowOpen(Boolean anotherWindowOpen) {
