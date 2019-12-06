@@ -263,8 +263,11 @@ public class FileReader {
 	}
 
 	/**
+	 * 	Creates an object array with the number of cells of the given row, proceeding to printing all the values of that row
+	 * 	into the array as a String in the original order. This is done while there are more cells on the row. The return is the 
+	 * 	array created with the row values in their original order.	
 	 * 
-	 * 
+	 * 	@param row - row that is to be converted into an object array 
 	 */
 	public Object[] printRowValue(Row row) {
 		Object[] rowValues = new String[row.getLastCellNum()];

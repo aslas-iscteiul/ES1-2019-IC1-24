@@ -5,6 +5,7 @@ package tests;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.poi.ss.usermodel.Row;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
@@ -60,7 +61,7 @@ class FileReaderTest {
 	 */
 	@Test
 	void testIPlasmaLongMethodDefects() {
-		f.iPlasmaLongMethodDefects(); 
+		f.iPlasmaLongMethodDefects();
 
 		assertEquals(140, f.getCounterSystem().getDCI());
 		assertEquals(0, f.getCounterSystem().getDII());
@@ -82,11 +83,12 @@ class FileReaderTest {
 	}
 
 	/**
-	 * Test method for {@link app_structure.FileReader#ruleLongMethodDefects(java.lang.String)}.
+	 * Test method for
+	 * {@link app_structure.FileReader#ruleLongMethodDefects(java.lang.String)}.
 	 */
 	@Test
 	void testRuleLongMethodDefects() {
-		///////////////////////////1º Case/////////////////////////
+		/////////////////////////// 1º Case/////////////////////////
 		String test_rule_v1 = "LOC;>;200;AND;CYCLO;>;100";
 		this.f.ruleLongMethodDefects(test_rule_v1);
 		assertEquals(5, f.getCounterSystem().getDCI());
@@ -96,7 +98,7 @@ class FileReaderTest {
 
 		assertEquals(5, this.f.ruleLongMethodDefects(test_rule_v1).size());
 
-		///////////////////////////2º Case/////////////////////////
+		/////////////////////////// 2º Case/////////////////////////
 		String test_rule_v2 = "LOC;<;5;OR;CYCLO;<;0";
 		this.f.ruleLongMethodDefects(test_rule_v2);
 		assertEquals(0, f.getCounterSystem().getDCI());
@@ -108,7 +110,8 @@ class FileReaderTest {
 	}
 
 	/**
-	 * Test method for {@link app_structure.FileReader#ruleFeatureEnvyDefects(java.lang.String)}.
+	 * Test method for
+	 * {@link app_structure.FileReader#ruleFeatureEnvyDefects(java.lang.String)}.
 	 */
 	@Test
 	void testRuleFeatureEnvyDefects() {
@@ -128,6 +131,23 @@ class FileReaderTest {
 	@Test
 	void testGetSheet() {
 		assertNotNull(this.f.getSheet());
+	}
+
+	@Test
+	void testPrintRowValue() {
+		Row r = f.getSheet().getRow(1);
+		Object[] o = { "1.0", "fat", "DocumentParseFixture", "Output()", "3.0", "1.0", "0.0", "1.0", "FALSE", "FALSE",
+				"FALSE", "FALSE" };
+		Object[] ro = f.printRowValue(r);
+		
+		boolean b = true;
+		
+		for(int i = 0; i < o.length; i++) {
+			if(!o[i].equals(ro[i])) {
+				b = false;
+			}
+		}
+		assertTrue(b);
 	}
 
 }
