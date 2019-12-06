@@ -51,10 +51,12 @@ import net.miginfocom.swing.MigLayout;
  * 
  * @author anabela, catarina a.
  * 
- * GUI class is used by the Application class to quick start the user's view of the app.
- * GUI only requires an Application so it can associate itself and later call methods from that class.
- * This class is observable aNd will update itself whenever the user implements different tools/rules.
- *  
+ *         GUI class is used by the Application class to quick start the user's
+ *         view of the app. GUI only requires an Application so it can associate
+ *         itself and later call methods from that class. This class is
+ *         observable aNd will update itself whenever the user implements
+ *         different tools/rules.
+ * 
  */
 
 public class GUI extends Observable {
@@ -66,7 +68,7 @@ public class GUI extends Observable {
 	private JPanel view_panel;
 	private JButton viewButton;
 
-	private JComboBox tooOrRuleComboBox;
+	private JComboBox toolOrRuleComboBox;
 	private JButton okButton;
 
 	private JTable table_file;
@@ -98,21 +100,23 @@ public class GUI extends Observable {
 	}
 
 	/**
-	 * 	Init will create the JFrame that will appear to the user. 
-	 * 	It includes: a menu bar; a panel for the user to click and view the file in another panel, in a JTable format; 
-	 * 	a panel where the user chooses either a tool or rule and later on shows the defects that were counted in separate 
-	 * 	labels, according to their nature (if the metric chosen is a rule it will also show the method ids that showed 
-	 * 	conflict).   
+	 * Init will create the JFrame that will appear to the user. It includes: a menu
+	 * bar; a panel for the user to click and view the file in another panel, in a
+	 * JTable format; a panel where the user chooses either a tool or rule and later
+	 * on shows the defects that were counted in separate labels, according to their
+	 * nature (if the metric chosen is a rule it will also show the method ids that
+	 * showed conflict).
 	 * 
-	 * 	@param 
+	 * @param
 	 */
-	
+
 	public void init() {
 		// Frame setup
 		frame = new JFrame("BeQoS");
 		frame.setBackground(new Color(240, 240, 240));
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(GUI.class.getResource("/gui/award.png")));
 		frame.setVisible(true);
+		frame.setResizable(false);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setBounds(50, 50, 1008, 643);
@@ -128,23 +132,35 @@ public class GUI extends Observable {
 		userGuide.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				JFrame userGuide = new JFrame("User Guide");
-				userGuide.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				userGuide.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				userGuide.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent e) {
+						e.getWindow().dispose();
+					}
+				});
+
 				userGuide.setBounds(100, 100, 522, 361);
 				JPanel contentPane = new JPanel();
 				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 				userGuide.setContentPane(contentPane);
 				contentPane.setLayout(null);
-				
+
 				JLabel howToUse = new JLabel("How to use BeQoS:");
 				howToUse.setBounds(5, 5, 418, 20);
 				contentPane.add(howToUse);
-				
+
 				JTextPane txt = new JTextPane();
 				txt.setEditable(false);
-				txt.setText("BeQoS presents a user-friendly interface that allows the following functionalities: \n View the original Excel file that contains all the information on the methods and their metrics by clicking the 'View File' ;  choose a \"Tool\" or \"Rule\"  from the combobox and click the 'Apply' button, that redirects the user to other windows. The \"Tool\" option allows the user to choose from PMD or iPlasma, click 'Apply' and the defect numbers will show up on the labels. The \"Rule\" option requires choosing from two rules (Long Method or Feature Envy) and then fill in the blanks to create a rule. By clicking 'Apply' the user will then have the numbers on the labels and the IDs from the methods with defects.");
-				txt.setBounds(15, 34, 470, 255);
-				contentPane.add(txt);
-				
+				txt.setText(
+						"BeQoS presents a user-friendly interface that allows the following functionalities: \n \n View the original Excel file that contains all the information on the methods and their metrics by clicking the 'View File' ;  choose a \"Tool\" or \"Rule\"  from the combobox and click the 'Apply' button, that redirects the user to other windows. \n \n The \"Tool\" option allows the user to choose from PMD or iPlasma, click 'Apply' and the defect numbers will show up on the labels. \n \n The \"Rule\" option requires choosing from two rules (Long Method or Feature Envy) and then fill in the blanks to create a rule. By clicking 'Apply' the user will then have the numbers on the labels and the IDs from the methods with defects.");
+
+				JScrollPane scroll = new JScrollPane(txt, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scroll.setBounds(15, 34, 470, 255);
+
+				contentPane.add(scroll);
+
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -155,35 +171,43 @@ public class GUI extends Observable {
 					}
 				});
 			}
-			
+
 		});
 
 		JMenuItem aboutBeQoS = new JMenuItem("About BeQoS");
 		mnHelp.add(aboutBeQoS);
-		
+
 		aboutBeQoS.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ev) {
 				JFrame aboutBeQoS = new JFrame("About BeQoS");
-				aboutBeQoS.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+				aboutBeQoS.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+				aboutBeQoS.addWindowListener(new java.awt.event.WindowAdapter() {
+					@Override
+					public void windowClosing(java.awt.event.WindowEvent e) {
+						e.getWindow().dispose();
+					}
+				});
 				aboutBeQoS.setBounds(100, 100, 522, 361);
 				JPanel contentPane = new JPanel();
 				contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 				aboutBeQoS.setContentPane(contentPane);
 				contentPane.setLayout(null);
-				
+
 				JTextPane txt = new JTextPane();
 				txt.setEditable(false);
-				
+
 				try {
-		            txt.read(new InputStreamReader(
-		                    getClass().getResourceAsStream("/gui/about.txt")),
-		                null);
-		        } catch (IOException e) {
-		            e.printStackTrace();
-		        }
-				txt.setBounds(15, 34, 470, 255);
-				contentPane.add(txt);
-				
+					txt.read(new InputStreamReader(getClass().getResourceAsStream("/gui/about.txt")), null);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+
+				JScrollPane scroll = new JScrollPane(txt, ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+						ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				scroll.setBounds(15, 34, 470, 255);
+
+				contentPane.add(scroll);
+
 				EventQueue.invokeLater(new Runnable() {
 					public void run() {
 						try {
@@ -194,9 +218,8 @@ public class GUI extends Observable {
 					}
 				});
 			}
-			
+
 		});
-		
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -227,9 +250,9 @@ public class GUI extends Observable {
 		JLabel defectOptionsLabel = new JLabel("Defect Counter Options:");
 		rulesPanel.add(defectOptionsLabel, "cell 0 0");
 
-		tooOrRuleComboBox = new JComboBox();
-		tooOrRuleComboBox.setModel(new DefaultComboBoxModel(new String[] { "Tool", "Rule" }));
-		rulesPanel.add(tooOrRuleComboBox, "flowx,cell 0 1,growx");
+		toolOrRuleComboBox = new JComboBox();
+		toolOrRuleComboBox.setModel(new DefaultComboBoxModel(new String[] { "Tool", "Rule" }));
+		rulesPanel.add(toolOrRuleComboBox, "flowx,cell 0 1,growx");
 
 		okButton = new JButton("Apply");
 
@@ -331,16 +354,17 @@ public class GUI extends Observable {
 		file_scrollPane.setViewportView(table_file);
 
 	}
-	
+
 	/**
-	 * 	Actions adds the actionListeners to the components of the JFrame, when needed. 
-	 * 	The buttons 'View File' and 'Apply' prompt action from the application. 
-	 * 	The listener of the View button responds by getting the Excel sheet from the FileReader on the Application
-	 * 	and then placing it on the JTable on the corresponding panel. 
-	 * 	On the other hand, the listener on the Apply button will react depending on which option the user has chosen on 
-	 * 	the comboBox and act upon it by creating another frame. 
+	 * Actions adds the actionListeners to the components of the JFrame, when
+	 * needed. The buttons 'View File' and 'Apply' prompt action from the
+	 * application. The listener of the View button responds by getting the Excel
+	 * sheet from the FileReader on the Application and then placing it on the
+	 * JTable on the corresponding panel. On the other hand, the listener on the
+	 * Apply button will react depending on which option the user has chosen on the
+	 * comboBox and act upon it by creating another frame.
 	 * 
-	 * 	@param
+	 * @param
 	 */
 
 	public void actions() {
@@ -360,7 +384,7 @@ public class GUI extends Observable {
 							for (int i = 0; i < sheet.getRow(j).getLastCellNum(); i++) {
 								dtm.addColumn(sheet.getRow(j).getCell(i));
 							}
-							
+
 						} else {
 							Row row = sheet.getRow(j);
 							dtm.addRow(INSTANCE.app.getFileReader().printRowValue(row));
@@ -377,10 +401,10 @@ public class GUI extends Observable {
 
 		okButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Tool"
+				if (INSTANCE.toolOrRuleComboBox.getSelectedItem().toString() == "Tool"
 						&& INSTANCE.anotherWindowOpen == false) {
 					INSTANCE.createToolFrame();
-				} else if (INSTANCE.tooOrRuleComboBox.getSelectedItem().toString() == "Rule"
+				} else if (INSTANCE.toolOrRuleComboBox.getSelectedItem().toString() == "Rule"
 						&& INSTANCE.anotherWindowOpen == false) {
 					INSTANCE.createRuleFrame();
 				} else if (INSTANCE.anotherWindowOpen == true) {
@@ -391,15 +415,17 @@ public class GUI extends Observable {
 		});
 
 	}
-	
+
 	/**
-	 * 	CreateToolFrame will open a new JFrame that contains a comboBox and an 'Apply' button.
-	 * 	The option on the comboBox are the two tools the user may use. 
-	 * 	This method also contains the listener to the 'Apply' button, that will close the previously created frame and
-	 * 	tell the application which tool was chosen, so the labels on the main frame will change to the numbers calculated by 
-	 * 	the Application (calling methods on the FileReader and CounterSystem classes).
+	 * CreateToolFrame will open a new JFrame that contains a comboBox and an
+	 * 'Apply' button. The option on the comboBox are the two tools the user may
+	 * use. This method also contains the listener to the 'Apply' button, that will
+	 * close the previously created frame and tell the application which tool was
+	 * chosen, so the labels on the main frame will change to the numbers calculated
+	 * by the Application (calling methods on the FileReader and CounterSystem
+	 * classes).
 	 * 
-	 * 	@param
+	 * @param
 	 */
 
 	public void createToolFrame() {
@@ -475,14 +501,15 @@ public class GUI extends Observable {
 	}
 
 	/**
-	 * 	CreateRuleFrame will open a new JFrame that contains a comboBox and an 'Apply' button.
-	 * 	The option on the comboBox are the two rules the user may use. 
-	 * 	This method also contains the listener to the 'Apply' button, that will close the previously created frame and
-	 * 	tell the instance which rule was chosen, calling the createSpecificRuleFrame method.  	
-	 * 	
-	 * 	@param
+	 * CreateRuleFrame will open a new JFrame that contains a comboBox and an
+	 * 'Apply' button. The option on the comboBox are the two rules the user may
+	 * use. This method also contains the listener to the 'Apply' button, that will
+	 * close the previously created frame and tell the instance which rule was
+	 * chosen, calling the createSpecificRuleFrame method.
+	 * 
+	 * @param
 	 */
-	
+
 	public void createRuleFrame() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -543,20 +570,21 @@ public class GUI extends Observable {
 			}
 		});
 	}
-	
-	
+
 	/**
-	 * 	CreateSpecificRuleFrame will open a new JFrame that contains a series of fields that the user 
-	 * 	has to fill, including comboBoxes and textfields. It also has an 'Apply' button.
-	 * 	The Frame created will depend on the parameter passed. It can be one of the following two options:
-	 * 	'Long Method' or 'Feature Envy'. 
-	 * 	This method also contains the listener to the 'Apply' button, that will close this frame and convert the rule created
-	 * 	into a string, that will show up on the main window and will be used to obtain a list of the methods that follow that 
-	 * 	rule. 	
-	 * 	If the user inserts invalid text on the number fields, a warning will be given in the form of a dialog frame.	
+	 * CreateSpecificRuleFrame will open a new JFrame that contains a series of
+	 * fields that the user has to fill, including comboBoxes and textfields. It
+	 * also has an 'Apply' button. The Frame created will depend on the parameter
+	 * passed. It can be one of the following two options: 'Long Method' or 'Feature
+	 * Envy'. This method also contains the listener to the 'Apply' button, that
+	 * will close this frame and convert the rule created into a string, that will
+	 * show up on the main window and will be used to obtain a list of the methods
+	 * that follow that rule. If the user inserts invalid text on the number fields,
+	 * a warning will be given in the form of a dialog frame.
 	 * 
-	 * 	@param nameRule - the name of the rule that was chosen by the user on the previous step. 
-	 */	
+	 * @param nameRule - the name of the rule that was chosen by the user on the
+	 *                 previous step.
+	 */
 
 	public void createSpecificRuleFrame(String nameRule) {
 		EventQueue.invokeLater(new Runnable() {
@@ -721,8 +749,53 @@ public class GUI extends Observable {
 		});
 	}
 
+	public static GUI getINSTANCE() {
+		return INSTANCE;
+	}
+
+	public Boolean getAnotherWindowOpen() {
+		return anotherWindowOpen;
+	}
+
+	public JComboBox gettoolOrRuleComboBox() {
+		return toolOrRuleComboBox;
+	}
+
+	public void setToolOrRuleComboBox(JComboBox toolOrRuleComboBox) {
+		this.toolOrRuleComboBox = toolOrRuleComboBox;
+	}
+
+	public String getCurrentRule() {
+		return currentRule;
+	}
+
+	public void setCurrentRule(String currentRule) {
+		this.currentRule = currentRule;
+	}
+
+	public JLabel getDciValue() {
+		return dciValue;
+	}
+
+	public JLabel getDiiValue() {
+		return diiValue;
+	}
+
+	public JLabel getAdciValue() {
+		return adciValue;
+	}
+
+	public JLabel getAdiiValue() {
+		return adiiValue;
+	}
+
+	public void setAnotherWindowOpen(Boolean anotherWindowOpen) {
+		this.anotherWindowOpen = anotherWindowOpen;
+	}
+
 	/**
-	 * 	CreateAndShowGUI serves as an entry point to the Window created, calling the init() and actions() methods.
+	 * CreateAndShowGUI serves as an entry point to the Window created, calling the
+	 * init() and actions() methods.
 	 * 
 	 * @wbp.parser.entryPoint
 	 */

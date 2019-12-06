@@ -66,7 +66,7 @@ public enum RelationalOperator {
      */
     public static RelationalOperator parseOperator(String operator) {
         for (RelationalOperator o : values()) {
-            if (o.name().equals(operator)) 
+            if (o.operator.equals(operator)) 
             	return o;
         }
         throw new NoSuchElementException(String.format("Unknown relational operator:", operator));
