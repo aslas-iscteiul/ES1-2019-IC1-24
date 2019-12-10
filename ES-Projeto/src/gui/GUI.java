@@ -667,7 +667,7 @@ public class GUI extends Observable {
 
 						try {
 							int i_txtfield = Integer.parseInt(firstNumber.getText());
-							int i_txtfield1 = Integer.parseInt(secondNumber.getText());
+							double i_txtfield1 = Double.parseDouble(secondNumber.getText());
 
 							if (nameRule.equals("Feature Envy")) {
 								currentRule = "ATFD;" + comboBox1.getSelectedItem().toString() + ";"
