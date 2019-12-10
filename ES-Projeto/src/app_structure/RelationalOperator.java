@@ -77,8 +77,8 @@ public enum RelationalOperator {
      * Compares two specified boolean conditions. 
      * The result is true if and only if the left condition </> (according to the relational operator) the right condition are true.
      * Otherwise the result is false.
-     * @param left - The boolean left condition.
-     * @param right - The boolean right condition.
+     * @param left - The int/double left condition.
+     * @param right - The int/double right condition.
      * @return true if the left condition </> the right condition are true. Otherwise returns false.
      * can do with int's or double's.
      */
