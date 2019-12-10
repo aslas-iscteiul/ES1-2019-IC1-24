@@ -73,6 +73,7 @@ public enum RelationalOperator {
     }
     
     
+    
     /**
      * Compares two specified boolean conditions. 
      * The result is true if and only if the left condition </> (according to the relational operator) the right condition are true.
