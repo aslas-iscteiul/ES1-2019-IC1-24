@@ -272,6 +272,7 @@ public class FileReader {
 	 * 	array created with the row values in their original order.	
 	 * 
 	 * 	@param row - row that is to be converted into an object array 
+	 * 	@return rowValues - an Object array that will contain all the cells of a certain row as a String. 
 	 */
 	public Object[] printRowValue(Row row) {
 		Object[] rowValues = new String[row.getLastCellNum()];

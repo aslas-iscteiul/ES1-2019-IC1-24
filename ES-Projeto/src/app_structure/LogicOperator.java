@@ -9,7 +9,7 @@ import java.util.NoSuchElementException;
 public enum LogicOperator {
 	
 	/**
-	 * And logic operator (&&).
+	 * And logic operator.
 	 */
 	AND("AND") {
 		@Override 
@@ -19,7 +19,7 @@ public enum LogicOperator {
 	},
 	
 	/**
-	 * Or logic operator (||).
+	 * Or logic operator.
 	 */
 	OR("OR") {
 		@Override 

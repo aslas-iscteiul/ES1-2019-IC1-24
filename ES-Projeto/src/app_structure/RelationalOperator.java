@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 public enum RelationalOperator {
 	
 	/**
-	 *  Less RelationalOperator (<).
+	 *  Less RelationalOperator.
 	 *  Can do apply with int's or double's. 
 	 */
 	LESS("<") { 
@@ -27,7 +27,7 @@ public enum RelationalOperator {
 	
 	
 	/**
-	 * More RelationalOperator (>).
+	 * More RelationalOperator.
 	 *  Can do apply with int's or double's.
 	 */
 	MORE(">") {
@@ -79,11 +79,11 @@ public enum RelationalOperator {
     
     /**
      * Compares two specified boolean conditions. 
-     * The result is true if and only if the left condition </> (according to the relational operator) the right condition are true.
+     * The result is true if and only if the left condition less than/bigger than (according to the relational operator) the right condition are true.
      * Otherwise the result is false.
      * @param left - The int/double left condition.
      * @param right - The int/double right condition.
-     * @return true if the left condition </> the right condition are true. Otherwise returns false.
+     * @return true if the left condition less than/bigger than the right condition are true. Otherwise returns false.
      * can do with int's or double's.
      */
     public abstract boolean apply(int left, int right);

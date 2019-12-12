@@ -106,7 +106,6 @@ public class GUI extends Observable {
 	 * nature (if the metric chosen is a rule it will also show the method ids that
 	 * showed conflict).
 	 * 
-	 * @param
 	 */
 
 	public void init() {
@@ -363,7 +362,6 @@ public class GUI extends Observable {
 	 * Apply button will react depending on which option the user has chosen on the
 	 * comboBox and act upon it by creating another frame.
 	 * 
-	 * @param
 	 */
 
 	public void actions() {
@@ -424,7 +422,6 @@ public class GUI extends Observable {
 	 * by the Application (calling methods on the FileReader and CounterSystem
 	 * classes).
 	 * 
-	 * @param
 	 */
 
 	public void createToolFrame() {
@@ -506,7 +503,6 @@ public class GUI extends Observable {
 	 * close the previously created frame and tell the instance which rule was
 	 * chosen, calling the createSpecificRuleFrame method.
 	 * 
-	 * @param
 	 */
 
 	public void createRuleFrame() {
@@ -747,17 +743,38 @@ public class GUI extends Observable {
 		});
 	}
 	
+	/**
+	 *  Set a JComboBox in place of the attribute 'toolOrRuleComboBox'.
+	 * 
+	 *  @param toolOrRuleComboBox - JComboBox to set.
+	 */
+	
 	public void setToolOrRuleComboBox(JComboBox toolOrRuleComboBox) {
 		this.toolOrRuleComboBox = toolOrRuleComboBox;
 	}
-
+	
+	/**
+	 * @return the latest rule the user applied.
+	 */
+	
 	public String getCurrentRule() {
 		return currentRule;
 	}
+	
+	/**
+	 * Change the current rule to the one given.
+	 * @param currentRule - rule to define as the attribute 'currentRule'.
+	 */
 
 	public void setCurrentRule(String currentRule) {
 		this.currentRule = currentRule;
 	}
+	
+	/**
+	 * This method is used to control the creation of the auxiliar windows.
+	 * 
+	 * @param anotherWindowOpen - value that will change the 'anotherWindowOpen'.
+	 */
 
 	public void setAnotherWindowOpen(Boolean anotherWindowOpen) {
 		this.anotherWindowOpen = anotherWindowOpen;
@@ -767,7 +784,6 @@ public class GUI extends Observable {
 	 * CreateAndShowGUI serves as an entry point to the Window created, calling the
 	 * init() and actions() methods.
 	 * 
-	 * @wbp.parser.entryPoint
 	 */
 	public static void createAndShowGUI() {
 		INSTANCE.init();
