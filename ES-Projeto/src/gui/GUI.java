@@ -49,14 +49,13 @@ import net.miginfocom.swing.MigLayout;
 
 /**
  * 
- * @author anabela, catarina a.
- * 
  *         GUI class is used by the Application class to quick start the user's
  *         view of the app. GUI only requires an Application so it can associate
  *         itself and later call methods from that class. This class is
  *         observable aNd will update itself whenever the user implements
  *         different tools/rules.
- * 
+ *         
+ *         @author ES1-2019-IC1-24
  */
 
 public class GUI extends Observable {

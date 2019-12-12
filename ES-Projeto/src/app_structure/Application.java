@@ -8,13 +8,12 @@ import javax.swing.SwingUtilities;
 import gui.GUI;
 
 /**
- * 	@author anabela, catarina a.
- *	
  *	The Application class is used as the bridge between the technical and graphical parts of this project.
  * 	Application only requires a FileReader so it can reach it when the user either requires the visualization of the Excel file
  * 	or wants to apply a rule/tool.
  * 	This class is creates a new GUI (that receives an object of this class) and calls a method that starts the GUI.
- *
+ * 
+ * @author ES1-2019-IC1-24
  */
 
 public class Application {

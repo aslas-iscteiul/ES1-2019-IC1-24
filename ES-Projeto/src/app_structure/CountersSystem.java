@@ -7,6 +7,8 @@ package app_structure;
  * 		- DII for incorrectly identified defects;
  * 		- ADCI for absence of correctly identified defects;
  * 		- ADII for absence of incorrectly identified defects;
+ * 
+ * @author ES1-2019-IC1-24
  */
 public class CountersSystem {
 

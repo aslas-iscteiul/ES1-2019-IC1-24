@@ -17,6 +17,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
  * The FileReader class is used by the Application class to access the excel file "Long-Method.xlsx", 
  * allowing it to be read and evaluated by all methods described in the file, according to specific 
  * tools and/or rules defined. This valuation is accounted for as a system of counters.
+ * 
+ * @author ES1-2019-IC1-24
  */
 public class FileReader {
 
@@ -66,6 +68,8 @@ public class FileReader {
 		return this.counters;
 	}
 
+	// Initial tests for reading and obtaining excel file values.
+	
 	//	/**
 	//	 * Prints all file.
 	//	 */

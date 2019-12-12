@@ -3,6 +3,10 @@ package app_structure;
 
 import java.util.NoSuchElementException;
 
+/**
+ * @author ES1-2019-IC1-24
+ *
+ */
 public enum RelationalOperator {
 	
 	/**
